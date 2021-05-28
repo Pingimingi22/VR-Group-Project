@@ -44,15 +44,21 @@ public class CombatManager : MonoBehaviour
 
     public void Shoot(Vector3 crosshairPos)
     {
-        Ray ray = Camera.main.ScreenPointToRay(crosshairPos);
+        Ray testRay = new Ray(Vector3.zero, testPos - m_uiCamera.transform.position);
 
         // Maybe we can make two bullets per shot for the pew pew effect?
 
         GameObject newBullet1 = Instantiate(m_basicBullet);
         newBullet1.transform.position = Vector3.zero;
 
-        Plane testPlane = new Plane(new Vector3(0, -1, 0), 10);
-        Ray testRay = new Ray(Vector3.zero, testPos - m_uiCamera.transform.position);
+        Vector2 upDir = Vector2.zero - new Vector2(m_uiCamera.transform.position.y, m_uiCamera.transform.position.z);
+
+        float yRot = Mathf.Atan2(upDir.y, upDir.x);
+
+        // Fixing rotation of the newly spawned bullet.
+        newBullet1.transform.rotation = Quaternion.LookRotation(testRay.direction, Vector3.up);
+        newBullet1.transform.rotation = Quaternion.Euler(yRot, newBullet1.transform.rotation.y, newBullet1.transform.rotation.z);
+
 
 
 
@@ -63,7 +69,6 @@ public class CombatManager : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-        Ray testRay = new Ray(m_spawnLeft.position, testPos);
-        Gizmos.DrawRay(testRay);
-	}
+        Ray testRay = new Ray(Vector3.zero, testPos - m_uiCamera.transform.position);
+    }
 }

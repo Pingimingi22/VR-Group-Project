@@ -19,7 +19,7 @@ namespace Player
         public Transform m_rightHandAnchor;
 
         [Header("Crosshair things")]
-        public float m_crosshairSpeed = 100.0f; // idk sounds kinda normal?
+        public float m_crosshairSpeed = 0.75f; // idk sounds kinda normal?
         
         public Image m_crosshair;
 
