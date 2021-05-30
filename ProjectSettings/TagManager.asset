@@ -38,9 +38,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Crosshair
-    uniqueID: 575868683
-    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

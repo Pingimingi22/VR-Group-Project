@@ -19,9 +19,12 @@ namespace Player
         public Transform m_rightHandAnchor;
 
         [Header("Crosshair things")]
-        public float m_crosshairSpeed = 100.0f; // idk sounds kinda normal?
+        public float m_crosshairSpeed = 0.75f; // idk sounds kinda normal?
         
         public Image m_crosshair;
+
+        [Header("Track movement stuff")]
+        public float m_movementSpeed = 5;
 
         // -------------------------------------------------------------------------------- //
 
@@ -46,16 +49,13 @@ namespace Player
             CrosshairInput();
             UpdateCrosshairImage();
 
+            PrototypeMovement();
+
             if (Input.GetAxis("Fire1") != 0)
             {
                 // Shoot.
-                m_combatManager.Shoot(m_crosshairPos);
+                m_combatManager.Shoot(m_crosshair.transform.position);
             }
-
-
-
-            // test delete this
-            m_combatManager.testPos = m_crosshair.transform.position;
         }
 
         void CrosshairInput()
@@ -83,6 +83,14 @@ namespace Player
         void InitCrosshair()
         {
             m_crosshair.transform.localPosition = Vector3.zero;
+        }
+
+        /// <summary>
+        /// PrototypeMovement() is just going to move the player forward constantly. I'm using this just to see how movement will look like with the agents coming towards us at the same itme.
+        /// </summary>
+        void PrototypeMovement()
+        {
+            transform.position += Vector3.forward * Time.deltaTime * m_movementSpeed;
         }
     }
 }

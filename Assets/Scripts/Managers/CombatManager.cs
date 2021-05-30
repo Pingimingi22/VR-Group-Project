@@ -17,6 +17,9 @@ public class CombatManager : MonoBehaviour
     public float m_bulletSpeed = 100.0f; // Maybe it will be hitscan?? So if it is hitscan I guess we wouldn't need a bullet speed. But for now I'll make it like this
                                          // So we can see bullets moving across the screen.
 
+    [Tooltip("Time between shots.")]
+    public float m_basicGunFireRate = 0.25f;
+
     [Header("Bullet Assets")]
     public GameObject m_basicBullet;
 
@@ -25,9 +28,9 @@ public class CombatManager : MonoBehaviour
     public Transform m_spawnRight;
 
 
-    // test delete this.
-    public Vector3 testPos;
-
+    // Timer stuff.
+    private float m_basicGunCounter = 0.0f;
+    private bool m_isBasicCooldown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,32 +41,42 @@ public class CombatManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (m_isBasicCooldown)
+        {
+            // The basic gun has been fired and now has to cooldown.
+            m_basicGunCounter += Time.deltaTime;
+            if (m_basicGunCounter >= m_basicGunFireRate)
+            {
+                // The cooldown duration has elapsed.
+                m_isBasicCooldown = false;
+                m_basicGunCounter = 0;
+            }
+        }
     }
 
 
     public void Shoot(Vector3 crosshairPos)
     {
-        Ray ray = Camera.main.ScreenPointToRay(crosshairPos);
+        if (!m_isBasicCooldown) // Can only shoot if the gun is ready.
+        { 
+            Ray dirRay = new Ray(Vector3.zero, crosshairPos - m_uiCamera.transform.position);
 
-        // Maybe we can make two bullets per shot for the pew pew effect?
+            // Maybe we can make two bullets per shot for the pew pew effect?
 
-        GameObject newBullet1 = Instantiate(m_basicBullet);
-        newBullet1.transform.position = Vector3.zero;
+            GameObject newBullet1 = Instantiate(m_basicBullet);
+            newBullet1.transform.position = Vector3.zero;
 
-        Plane testPlane = new Plane(new Vector3(0, -1, 0), 10);
-        Ray testRay = new Ray(Vector3.zero, testPos - m_uiCamera.transform.position);
+            Rigidbody bullet1Rigidbody = newBullet1.GetComponent<Rigidbody>();
+            bullet1Rigidbody.AddForce(dirRay.direction * m_bulletSpeed, ForceMode.Impulse);
 
-
-
-        Rigidbody bullet1Rigidbody = newBullet1.GetComponent<Rigidbody>();
-        bullet1Rigidbody.AddForce(testRay.direction * m_bulletSpeed, ForceMode.Impulse);
+            // ------------------- //
+            m_isBasicCooldown = true; // Setting to true to start the cooldown.
+        }
 
     }
 
 	private void OnDrawGizmos()
 	{
-        Ray testRay = new Ray(m_spawnLeft.position, testPos);
-        Gizmos.DrawRay(testRay);
-	}
+        //Ray testRay = new Ray(Vector3.zero, testPos - m_uiCamera.transform.position);
+    }
 }
