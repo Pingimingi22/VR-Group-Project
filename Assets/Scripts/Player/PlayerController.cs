@@ -23,6 +23,9 @@ namespace Player
         
         public Image m_crosshair;
 
+        [Header("Track movement stuff")]
+        public float m_movementSpeed = 5;
+
         // -------------------------------------------------------------------------------- //
 
         Vector3 m_crosshairPos = Vector3.zero; // This is what moving the joysticks will be changing. We will then apply this to the image and other stuff.
@@ -45,6 +48,8 @@ namespace Player
         {
             CrosshairInput();
             UpdateCrosshairImage();
+
+            PrototypeMovement();
 
             if (Input.GetAxis("Fire1") != 0)
             {
@@ -84,8 +89,8 @@ namespace Player
         /// PrototypeMovement() is just going to move the player forward constantly. I'm using this just to see how movement will look like with the agents coming towards us at the same itme.
         /// </summary>
         void PrototypeMovement()
-        { 
-            
+        {
+            transform.position += Vector3.forward * Time.deltaTime * m_movementSpeed;
         }
     }
 }
