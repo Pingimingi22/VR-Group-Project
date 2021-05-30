@@ -49,13 +49,8 @@ namespace Player
             if (Input.GetAxis("Fire1") != 0)
             {
                 // Shoot.
-                m_combatManager.Shoot(m_crosshairPos);
+                m_combatManager.Shoot(m_crosshair.transform.position);
             }
-
-
-
-            // test delete this
-            m_combatManager.testPos = m_crosshair.transform.position;
         }
 
         void CrosshairInput()
