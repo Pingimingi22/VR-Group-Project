@@ -137,6 +137,9 @@ namespace Player
                 bool isXSet = false;
                 bool isYSet = false;
 
+                // The reason for these if statements is so that when the cursor is moved outside of the submarines viewport, it doesn't just stop moving completely. It will keep moving but be confined to
+                // the minimum and maximum extents of the view port.
+
                 if (ray.GetPoint(enter).x > m_canvas.transform.position.x + (canvasWidth / 2))
                 {
                     m_crosshairPos.x = m_canvas.transform.position.x + (canvasWidth / 2);
