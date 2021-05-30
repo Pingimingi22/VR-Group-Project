@@ -79,5 +79,13 @@ namespace Player
         {
             m_crosshair.transform.localPosition = Vector3.zero;
         }
+
+        /// <summary>
+        /// PrototypeMovement() is just going to move the player forward constantly. I'm using this just to see how movement will look like with the agents coming towards us at the same itme.
+        /// </summary>
+        void PrototypeMovement()
+        { 
+            
+        }
     }
 }
