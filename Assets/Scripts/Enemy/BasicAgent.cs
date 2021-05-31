@@ -22,7 +22,13 @@ public class BasicAgent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (m_target == null)
+        {
+            // We have to manually find it.
+            GameObject playerObj = GameObject.Find("Player");
+            m_target = playerObj.transform;
+            m_playerManager = playerObj.GetComponent<PlayerManager>();
+        }
     }
 
     // Update is called once per frame
