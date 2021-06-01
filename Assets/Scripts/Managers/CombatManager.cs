@@ -13,7 +13,7 @@ public class CombatManager : MonoBehaviour
     public Camera m_uiCamera;
 
     [Header("Gun/Bullet Stats:")]
-    public float m_basicGunDamage = 10.0f;
+    public int m_basicGunDamage = 10;
     public float m_bulletSpeed = 100.0f; // Maybe it will be hitscan?? So if it is hitscan I guess we wouldn't need a bullet speed. But for now I'll make it like this
                                          // So we can see bullets moving across the screen.
 
