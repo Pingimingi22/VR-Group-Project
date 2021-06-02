@@ -24,8 +24,13 @@ public class PlayerManager : MonoBehaviour
     public void RemoveHealth(int damage)
     {
         m_playerHealth -= damage;
-        if (m_playerHealth < 0)
+        if (m_playerHealth <= 0)
+        { 
             m_playerHealth = 0;
+            GameManager.EndGame();
+        }
+
+        
     }
 
     public void GainHealth(int health)
