@@ -40,21 +40,32 @@ namespace Player
 
         private LineRenderer m_lineRenderer;
 
+
+
+        private bool m_inEditor = false;
+
         // Start is called before the first frame update
         void Start()
         {
             InitCrosshair();
 
             m_lineRenderer = gameObject.GetComponent<LineRenderer>();
+
+            m_inEditor = Application.isEditor;
         }
     
         // Update is called once per frame
         void Update()
         {
 
-
-            CrosshairInput();
-            VRPointerUpdate();
+            if (m_inEditor)
+            {
+                CrosshairInput(); // Use normal mouse/controller controls.
+            }
+            else
+            { 
+                VRPointerUpdate(); // Use VR controller input.
+            }
             UpdateCrosshairImage();
 
             PrototypeMovement();
@@ -86,16 +97,52 @@ namespace Player
 
             if (m_xDelta != 0 || m_yDelta != 0)
             {
+                Debug.Log("Moving crosshair");
                 // Player is moving joystick.
+
+                float canvasWidth = m_canvas.GetComponent<RectTransform>().rect.width;
+                float canvasHeight = m_canvas.GetComponent<RectTransform>().rect.height;
+
                 Vector3 direction = new Vector3(m_xDelta, m_yDelta, 0);
                 direction.Normalize();
+
+                
+
+                
                 m_crosshairPos += direction * m_crosshairSpeed * Time.deltaTime;
+
+
+                // Making it so they can't take the crosshair off screen.
+                if (m_crosshairPos.x > (m_canvas.transform.position.x + canvasWidth / 2))
+                {
+                    m_crosshairPos.x = m_canvas.transform.position.x + canvasWidth / 2;
+                }
+                if (m_crosshairPos.x < (m_canvas.transform.position.x - canvasWidth / 2))
+                {
+                    m_crosshairPos.x = m_canvas.transform.position.x - canvasWidth / 2;
+                }
+                if (m_crosshairPos.y > (m_canvas.transform.position.y + canvasHeight / 2))
+                {
+                    m_crosshairPos.y = m_canvas.transform.position.y + canvasHeight / 2;
+                }
+                if (m_crosshairPos.y < (m_canvas.transform.position.y - canvasHeight / 2))
+                {
+                    m_crosshairPos.y = m_canvas.transform.position.y - canvasHeight / 2;
+                }
+
             }
         }
 
         void UpdateCrosshairImage()
         {
-            m_crosshair.transform.position = m_crosshairPos;
+            if (m_inEditor)
+            {
+                m_crosshair.transform.localPosition = m_crosshairPos;
+            }
+            else
+            {
+                m_crosshair.transform.position = m_crosshairPos;
+            }
         }
 
         /// <summary>
