@@ -64,6 +64,11 @@ namespace Player
                 // Shoot.
                 m_combatManager.Shoot(m_crosshair.transform.position);
             }
+            else if (Input.GetAxis("Fire2") != 0)
+            {
+                // Shoot.
+                m_combatManager.FireTorpedo(m_crosshair.transform.position);
+            }
 
 
 

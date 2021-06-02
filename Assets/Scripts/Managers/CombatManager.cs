@@ -22,6 +22,7 @@ public class CombatManager : MonoBehaviour
 
     [Header("Bullet Assets")]
     public GameObject m_basicBullet;
+    public GameObject m_torpedo;
 
     [Header("Bullet Spawn Locations")]
     public Transform m_spawnLeft;
@@ -70,6 +71,7 @@ public class CombatManager : MonoBehaviour
             newBullet1.transform.position = m_playerController.transform.position;
 
             Rigidbody bullet1Rigidbody = newBullet1.GetComponent<Rigidbody>();
+            //bullet1Rigidbody.velocity = m_bulletSpeed * dirRay.direction;
             bullet1Rigidbody.AddForce(dirRay.direction * m_bulletSpeed, ForceMode.Impulse);
 
             // ------------------- //
@@ -78,7 +80,28 @@ public class CombatManager : MonoBehaviour
 
     }
 
-	private void OnDrawGizmos()
+    public void FireTorpedo(Vector3 crosshairPos)
+    {
+        if (!m_isBasicCooldown) // Can only shoot if the gun is ready.
+        {
+            Ray dirRay = new Ray(Vector3.zero, crosshairPos - m_uiCamera.transform.position);
+
+            // Maybe we can make two bullets per shot for the pew pew effect?
+
+            GameObject newTorpedo1 = Instantiate(m_torpedo);
+            m_torpedo.transform.position = m_playerController.transform.position;
+
+            Rigidbody torpedo1Rigidbody = newTorpedo1.GetComponent<Rigidbody>();
+            //bullet1Rigidbody.velocity = m_bulletSpeed * dirRay.direction;
+            torpedo1Rigidbody.AddForce(dirRay.direction * m_bulletSpeed, ForceMode.Impulse);
+
+            // ------------------- //
+            m_isBasicCooldown = true; // Setting to true to start the cooldown.
+        }
+
+    }
+
+    private void OnDrawGizmos()
 	{
         //Ray testRay = new Ray(Vector3.zero, testPos - m_uiCamera.transform.position);
     }
