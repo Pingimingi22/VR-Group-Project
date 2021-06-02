@@ -13,7 +13,7 @@ public class CombatManager : MonoBehaviour
     public Camera m_uiCamera;
 
     [Header("Gun/Bullet Stats:")]
-    public float m_basicGunDamage = 10.0f;
+    public int m_basicGunDamage = 10;
     public float m_bulletSpeed = 100.0f; // Maybe it will be hitscan?? So if it is hitscan I guess we wouldn't need a bullet speed. But for now I'll make it like this
                                          // So we can see bullets moving across the screen.
 
@@ -26,6 +26,9 @@ public class CombatManager : MonoBehaviour
     [Header("Bullet Spawn Locations")]
     public Transform m_spawnLeft;
     public Transform m_spawnRight;
+
+    [Header("Player references")]
+    public Player.PlayerController m_playerController;
 
 
     // Timer stuff.
@@ -64,7 +67,7 @@ public class CombatManager : MonoBehaviour
             // Maybe we can make two bullets per shot for the pew pew effect?
 
             GameObject newBullet1 = Instantiate(m_basicBullet);
-            newBullet1.transform.position = Vector3.zero;
+            newBullet1.transform.position = m_playerController.transform.position;
 
             Rigidbody bullet1Rigidbody = newBullet1.GetComponent<Rigidbody>();
             bullet1Rigidbody.AddForce(dirRay.direction * m_bulletSpeed, ForceMode.Impulse);

@@ -7,8 +7,11 @@ public class BasicAgent : MonoBehaviour
 
     public Transform m_target;
     public PlayerManager m_playerManager;
+    public CombatManager m_combatManager;
 
     [Header("Agent Stats")]
+    public int m_health = 100;
+    public int m_maxHealth = 100;
     public float m_moveSpeed;
     public float m_stoppingDistance;
     public int m_damage;
@@ -22,7 +25,14 @@ public class BasicAgent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (m_target == null)
+        {
+            // We have to manually find it.
+            GameObject playerObj = GameObject.Find("Player");
+            m_target = playerObj.transform;
+            m_playerManager = playerObj.GetComponent<PlayerManager>();
+            m_combatManager = GameObject.Find("Managers").GetComponent<CombatManager>();
+        }
     }
 
     // Update is called once per frame
@@ -71,6 +81,24 @@ public class BasicAgent : MonoBehaviour
         {
             GameObject particleEffect = Instantiate(m_deathExplosion);
             particleEffect.transform.position = transform.position;
+        }
+	}
+
+    public void TakeDamage(int damage)
+    {
+        m_health -= damage;
+        if (m_health < 0)
+        {
+            Destroy(gameObject); // I know we shouldn't be destroying but hey it's just a prototype right? ... 
+        }
+    }
+
+	private void OnCollisionEnter(Collision collision)
+	{
+        if (collision.gameObject.tag == "Bullet")
+        {
+            TakeDamage(m_combatManager.m_basicGunDamage);
+            Destroy(collision.gameObject); // Removing the bullet after it hit's the enemy.
         }
 	}
 }
