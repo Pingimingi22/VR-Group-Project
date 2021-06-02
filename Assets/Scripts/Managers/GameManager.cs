@@ -26,10 +26,11 @@ public class GameManager : MonoBehaviour
     [Header("Extra Canvas Things")]
     public Canvas m_gameOverCanvas;
 
-    // Loading in highscore stuff.
+    // Highscore stuff.
     [HideInInspector]
-    public static int m_highscore = 0;
-
+    public static int m_currentScore = 0; // Current high score for the session.
+    [HideInInspector]
+    public static int m_highScore = 0; // loaded in from previous session.
     
     
 
@@ -125,6 +126,11 @@ public class GameManager : MonoBehaviour
     public static void EndGame()
     {
         m_isGameOver = true;
+    }
+
+    public static void AddPoints(int points)
+    {
+        m_currentScore += points;
     }
 
     

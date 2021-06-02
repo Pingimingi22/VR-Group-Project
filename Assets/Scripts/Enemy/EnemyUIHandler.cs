@@ -19,7 +19,8 @@ public class EnemyUIHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float fillAmount = m_agent.m_health / m_agent.m_maxHealth;
+        float fillAmount = (float)m_agent.m_health / (float)m_agent.m_maxHealth;
+
 
         m_healthbarImage.fillAmount = fillAmount;
     }

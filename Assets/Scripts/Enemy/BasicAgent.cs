@@ -63,6 +63,9 @@ public class BasicAgent : MonoBehaviour
 
             m_hasAttacked = true;
 
+            // Remove this later, just to test getting scores and stuff:
+            GameManager.AddPoints(5);
+
             Destroy(gameObject);
         }
 	}
@@ -91,9 +94,11 @@ public class BasicAgent : MonoBehaviour
         {
             Destroy(gameObject); // I know we shouldn't be destroying but hey it's just a prototype right? ... 
         }
+
+        Debug.Log("Enemy took damage");
     }
 
-	private void OnCollisionEnter(Collision collision)
+	private void OnTriggerEnter (Collider collision)
 	{
         if (collision.gameObject.tag == "Bullet")
         {
@@ -101,4 +106,6 @@ public class BasicAgent : MonoBehaviour
             Destroy(collision.gameObject); // Removing the bullet after it hit's the enemy.
         }
 	}
+
+
 }

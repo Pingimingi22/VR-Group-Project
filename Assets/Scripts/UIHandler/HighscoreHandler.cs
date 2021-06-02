@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
-public class HPHandler : MonoBehaviour
+public class HighscoreHandler : MonoBehaviour
 {
-    public PlayerManager m_playerManager;
     public TextMeshProUGUI m_text;
     // Start is called before the first frame update
     void Start()
@@ -15,6 +15,6 @@ public class HPHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_text.text = $"Health: {PlayerManager.m_playerHealth}";
+        m_text.text = $"Highscore: {GameManager.m_highScore}";
     }
 }
