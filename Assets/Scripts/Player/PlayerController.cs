@@ -44,6 +44,9 @@ namespace Player
 
         private bool m_inEditor = false;
 
+
+        private bool m_swappingToGameInput = false;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -70,7 +73,20 @@ namespace Player
 
             PrototypeMovement();
 
-            if ((Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver)
+
+            
+
+            if (m_swappingToGameInput)
+            {
+                if (Input.GetAxis("Fire1") == 0 || OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger))
+                {
+                    // Doing this little extra check prevents the fire from selecting a UI element from shooting in game.
+                    m_swappingToGameInput = false;
+                }
+            }
+
+
+            if ((Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput)
             {
 
                 // Shoot.
@@ -97,6 +113,9 @@ namespace Player
             //m_lineRenderer.SetPosition(1, ray.origin + 100 * ray.direction);
         }
 
+        /// <summary>
+        /// CrosshairInput() handles crosshair movement with keyboard/controller input. 
+        /// </summary>
         void CrosshairInput()
         {
             m_xDelta = Input.GetAxis("Horizontal");
@@ -270,6 +289,8 @@ namespace Player
 
                     if (Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
                     {
+                        m_swappingToGameInput = true;
+
                         GameManager.m_startGameButtonS.onClick.Invoke();
                         Debug.Log("Button click registered.");
                     }
@@ -308,6 +329,8 @@ namespace Player
 
                     if (Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
                     {
+                        m_swappingToGameInput = true;
+    
                         GameManager.m_retryButtonS.onClick.Invoke();
                         Debug.Log("Button click registered.");
                     }
