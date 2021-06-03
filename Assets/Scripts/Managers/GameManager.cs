@@ -30,8 +30,15 @@ public class GameManager : MonoBehaviour
     [Header("Extra Canvas Things")]
     public Canvas m_gameOverCanvas;
     public Canvas m_startGameCanvas;
+
     public Button m_startGameButton; 
     public static Button m_startGameButtonS; // Static version to be accessed within the PlayerController.cs script.
+
+    public Button m_retryButton;
+    public static Button m_retryButtonS;
+
+    [Header("Other Manager References")]
+    public PlayerManager m_playerManager;
 
     // Highscore stuff.
     [HideInInspector]
@@ -47,6 +54,7 @@ public class GameManager : MonoBehaviour
         FileManager.Load();
 
         m_startGameButtonS = m_startGameButton;
+        m_retryButtonS = m_retryButton;
 	}
 
 
@@ -161,6 +169,27 @@ public class GameManager : MonoBehaviour
         m_startGameCanvas.gameObject.SetActive(false);
 
         Debug.Log("Game Started");
+    }
+
+    public void RestartGame()
+    {
+        m_hasGameStarted = true;
+        m_gameOverCanvas.gameObject.SetActive(false);
+
+        Debug.Log("Game restarted.");
+
+        m_isGameOver = false;
+        m_gameOverCheck = false;
+
+        m_currentScore = 0;
+
+        m_playerManager.m_playerHealth = m_playerManager.m_maxPlayerHealth;
+
+        GameObject[] m_allEnemies = GameObject.FindGameObjectsWithTag("Enemy"); // Clearing all current enemies on the screen.
+        for (int i = 0; i < m_allEnemies.Length; i++)
+        {
+            Destroy(m_allEnemies[i]);
+        }
     }
 
     
