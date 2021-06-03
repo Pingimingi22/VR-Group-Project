@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static int m_maxPlayerHealth = 100;
+    public int m_maxPlayerHealth = 100;
 
-    public static int m_playerHealth = 100;
+    public int m_playerHealth = 100;
 
 
     // Start is called before the first frame update

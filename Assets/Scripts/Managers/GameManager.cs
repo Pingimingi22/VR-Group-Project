@@ -31,13 +31,18 @@ public class GameManager : MonoBehaviour
     public static int m_currentScore = 0; // Current high score for the session.
     [HideInInspector]
     public static int m_highScore = 0; // loaded in from previous session.
-    
-    
 
 
+	private void Start()
+	{
 
-    // Update is called once per frame
-    void Update()
+        Debug.Log("Default save location: " + Application.persistentDataPath);
+        FileManager.Load();
+	}
+
+
+	// Update is called once per frame
+	void Update()
     {
         if (m_spawnCooldown)
         {
@@ -120,7 +125,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void OnGameOver()
     {
-        m_gameOverCanvas.gameObject.SetActive(true);    
+        m_gameOverCanvas.gameObject.SetActive(true);
+        FileManager.Save();
     }
 
     public static void EndGame()

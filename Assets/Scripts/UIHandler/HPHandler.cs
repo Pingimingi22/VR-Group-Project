@@ -15,6 +15,6 @@ public class HPHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_text.text = $"Health: {PlayerManager.m_playerHealth}";
+        m_text.text = $"Health: {m_playerManager.m_playerHealth}";
     }
 }
