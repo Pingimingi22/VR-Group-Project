@@ -49,11 +49,14 @@ MonoBehaviour:
   m_basicGunDamage: 10
   m_bulletSpeed: 100
   m_basicGunFireRate: 0.2
-  m_basicBullet: {fileID: 6853063853072525305, guid: 77da3d911dba61d47b82463b9c517678,
+  m_basicBullet: {fileID: 1924044320995973810, guid: a829c6d18b7b5f04bb8e22e50c7a4d9b,
+    type: 3}
+  m_torpedo: {fileID: 6486547248339503964, guid: f68b7a4a79b065e47abbaf88f0d20bd2,
     type: 3}
   m_spawnLeft: {fileID: 0}
   m_spawnRight: {fileID: 0}
   m_playerController: {fileID: 0}
+  m_shootTransform: {fileID: 0}
 --- !u!114 &212209082678194465
 MonoBehaviour:
   m_ObjectHideFlags: 0

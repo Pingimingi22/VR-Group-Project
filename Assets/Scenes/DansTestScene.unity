@@ -567,6 +567,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f47bf3bab221a4fb180cffa89b06ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1625661380 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7065445309562355177, guid: 4680563fe2a4a8544b01b173487eeb48,
+    type: 3}
+  m_PrefabInstance: {fileID: 7065445310138855129}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1947088547 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 212209082678194471, guid: c6e6ad6437b9916489faaf57506ed6e0,
@@ -864,6 +870,11 @@ PrefabInstance:
       propertyPath: m_playerController
       value: 
       objectReference: {fileID: 1621728728}
+    - target: {fileID: 212209082678194471, guid: c6e6ad6437b9916489faaf57506ed6e0,
+        type: 3}
+      propertyPath: m_shootTransform
+      value: 
+      objectReference: {fileID: 1625661380}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6e6ad6437b9916489faaf57506ed6e0, type: 3}
 --- !u!1001 &7065445310138855129
