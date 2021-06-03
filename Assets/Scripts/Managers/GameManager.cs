@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (!m_spawnCooldown)
+        if (!m_spawnCooldown && !m_isGameOver)
         {
             // We can spawn a fish!
             GameObject fish = GenerateRandomFish();
