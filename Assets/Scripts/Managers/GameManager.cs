@@ -148,13 +148,14 @@ public class GameManager : MonoBehaviour
     {
         m_gameOverCanvas.gameObject.SetActive(true);
         FileManager.Save();
+        if (m_currentScore > m_highScore)
+            m_highScore = m_currentScore;
     }
 
     public static void EndGame()
     {
         m_isGameOver = true;
-        if (m_currentScore > m_highScore)
-            m_highScore = m_currentScore;
+  
     }
 
     public static void AddPoints(int points)
