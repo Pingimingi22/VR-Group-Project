@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 2834110227436631260}
   - component: {fileID: 1939068735}
   - component: {fileID: 5700189525794682938}
+  - component: {fileID: 8238770577538575678}
   m_Layer: 0
   m_Name: DansFish
   m_TagString: Untagged
@@ -167,6 +168,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_healthbarImage: {fileID: 725858035472988261}
+--- !u!65 &8238770577538575678
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701036019955655299}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3863966038627943785
 GameObject:
   m_ObjectHideFlags: 0

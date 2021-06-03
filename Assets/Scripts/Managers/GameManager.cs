@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static bool m_isGameOver = false;
+    private static bool m_gameOverCheck = false; // Used to make sure OnGameOver is only called once.
+
     [Header("Player Points")]
     public int m_points;
 
@@ -20,14 +23,26 @@ public class GameManager : MonoBehaviour
     private float m_spawnCounter = 0;
     private bool m_spawnCooldown = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Extra Canvas Things")]
+    public Canvas m_gameOverCanvas;
 
-    // Update is called once per frame
-    void Update()
+    // Highscore stuff.
+    [HideInInspector]
+    public static int m_currentScore = 0; // Current high score for the session.
+    [HideInInspector]
+    public static int m_highScore = 0; // loaded in from previous session.
+
+
+	private void Start()
+	{
+
+        Debug.Log("Default save location: " + Application.persistentDataPath);
+        FileManager.Load();
+	}
+
+
+	// Update is called once per frame
+	void Update()
     {
         if (m_spawnCooldown)
         {
@@ -47,7 +62,14 @@ public class GameManager : MonoBehaviour
             SpawnFish(fish, m_fishSpawnZone);
         }
 
-        
+
+        // Handling game over stuff
+        if (m_isGameOver && !m_gameOverCheck)
+        {
+            m_gameOverCheck = true; // Setting this to true will prevent this from getting called again. So it will only be called once.
+            OnGameOver();
+        }
+
     }
 
 
@@ -97,4 +119,25 @@ public class GameManager : MonoBehaviour
 
         m_spawnCooldown = true;
     }
+
+    /// <summary>
+    /// OnGameOver() call things that you would like to occur when the game is over here.
+    /// </summary>
+    void OnGameOver()
+    {
+        m_gameOverCanvas.gameObject.SetActive(true);
+        FileManager.Save();
+    }
+
+    public static void EndGame()
+    {
+        m_isGameOver = true;
+    }
+
+    public static void AddPoints(int points)
+    {
+        m_currentScore += points;
+    }
+
+    
 }
