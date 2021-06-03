@@ -30,6 +30,7 @@ public class CombatManager : MonoBehaviour
 
     [Header("Player references")]
     public Player.PlayerController m_playerController;
+    public Transform m_shootTransform;
 
 
     // Timer stuff.
@@ -67,8 +68,9 @@ public class CombatManager : MonoBehaviour
 
             // Maybe we can make two bullets per shot for the pew pew effect?
 
-            GameObject newBullet1 = Instantiate(m_basicBullet);
-            newBullet1.transform.position = m_playerController.transform.position;
+            GameObject newBullet1 = Instantiate(m_basicBullet, m_shootTransform.position, Quaternion.LookRotation(dirRay.direction));
+            Debug.Log(dirRay.direction);
+            //newBullet1.transform.position = m_shootTransform.position;
 
             Rigidbody bullet1Rigidbody = newBullet1.GetComponent<Rigidbody>();
             //bullet1Rigidbody.velocity = m_bulletSpeed * dirRay.direction;
@@ -88,8 +90,9 @@ public class CombatManager : MonoBehaviour
 
             // Maybe we can make two bullets per shot for the pew pew effect?
 
-            GameObject newTorpedo1 = Instantiate(m_torpedo);
-            m_torpedo.transform.position = m_playerController.transform.position;
+            GameObject newTorpedo1 = Instantiate(m_torpedo, m_shootTransform.position, Quaternion.LookRotation(dirRay.direction));
+            Debug.Log(dirRay.direction);
+            //m_torpedo.transform.position = m_shootTransform.position;
 
             Rigidbody torpedo1Rigidbody = newTorpedo1.GetComponent<Rigidbody>();
             //bullet1Rigidbody.velocity = m_bulletSpeed * dirRay.direction;

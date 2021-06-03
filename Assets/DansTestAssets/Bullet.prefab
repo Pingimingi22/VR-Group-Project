@@ -125,3 +125,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletLifeTime: 4
+  m_explosionParticles: {fileID: 0}
