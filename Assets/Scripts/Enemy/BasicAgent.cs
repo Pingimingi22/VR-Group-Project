@@ -15,6 +15,8 @@ public class BasicAgent : MonoBehaviour
     public float m_moveSpeed;
     public float m_stoppingDistance;
     public int m_damage;
+    public int m_pointsReward = 5;
+
 
     [Header("Agent Effects")]
     public GameObject m_deathExplosion;
@@ -31,7 +33,10 @@ public class BasicAgent : MonoBehaviour
             GameObject playerObj = GameObject.Find("Player");
             m_target = playerObj.transform;
             m_playerManager = playerObj.GetComponent<PlayerManager>();
-            m_combatManager = GameObject.Find("Managers").GetComponent<CombatManager>();
+        }
+        if (m_combatManager == null)
+        { 
+            m_combatManager = GameObject.Find("Managers").GetComponent<CombatManager>(); 
         }
     }
 
@@ -63,8 +68,7 @@ public class BasicAgent : MonoBehaviour
 
             m_hasAttacked = true;
 
-            // Remove this later, just to test getting scores and stuff:
-            GameManager.AddPoints(5);
+            
 
             Destroy(gameObject);
         }
@@ -90,9 +94,10 @@ public class BasicAgent : MonoBehaviour
     public void TakeDamage(int damage)
     {
         m_health -= damage;
-        if (m_health < 0)
+        if (m_health <= 0)
         {
             Destroy(gameObject); // I know we shouldn't be destroying but hey it's just a prototype right? ... 
+            GameManager.AddPoints(m_pointsReward);
         }
 
         Debug.Log("Enemy took damage");

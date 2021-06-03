@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SubmarineViewport
   - Bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
