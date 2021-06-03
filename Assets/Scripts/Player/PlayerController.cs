@@ -94,6 +94,11 @@ namespace Player
 
 
             }
+            else if (Input.GetAxis("Fire2") != 0)
+            {
+                // Shoot.
+                m_combatManager.FireTorpedo(m_crosshair.transform.position);
+            }
 
 
             else if (GameManager.m_isGameOver)
