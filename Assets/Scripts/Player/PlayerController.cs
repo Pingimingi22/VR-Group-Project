@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.EventSystems;
 namespace Player
 { 
     public class PlayerController : MonoBehaviour
@@ -44,6 +44,9 @@ namespace Player
 
         private bool m_inEditor = false;
 
+
+        private bool m_swappingToGameInput = false;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -70,10 +73,26 @@ namespace Player
 
             PrototypeMovement();
 
-            if (Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
+
+            
+
+            if (m_swappingToGameInput)
             {
+                if (Input.GetAxis("Fire1") == 0 || OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger))
+                {
+                    // Doing this little extra check prevents the fire from selecting a UI element from shooting in game.
+                    m_swappingToGameInput = false;
+                }
+            }
+
+
+            if ((Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput)
+            {
+
                 // Shoot.
                 m_combatManager.Shoot(m_crosshair.transform.position);
+
+
             }
             else if (Input.GetAxis("Fire2") != 0)
             {
@@ -82,6 +101,15 @@ namespace Player
             }
 
 
+            else if (GameManager.m_isGameOver)
+            {
+                GameOverInput();
+            }
+            else if (!GameManager.m_hasGameStarted) // If the game hasn't started.
+            {
+                MainMenuInput();
+            }
+            
 
             // ------------ Line renderer stuff to help with debugging ------------ //
 
@@ -90,6 +118,9 @@ namespace Player
             //m_lineRenderer.SetPosition(1, ray.origin + 100 * ray.direction);
         }
 
+        /// <summary>
+        /// CrosshairInput() handles crosshair movement with keyboard/controller input. 
+        /// </summary>
         void CrosshairInput()
         {
             m_xDelta = Input.GetAxis("Horizontal");
@@ -241,6 +272,87 @@ namespace Player
             //    // This is a really dodgy fix but whatever.
             //    m_crosshairPos += Vector3.forward * Time.deltaTime * m_movementSpeed; // Making it keep up with the player's forward movement.
             //}
+        }
+
+        private void MainMenuInput()
+        {
+            // Just for testing I'm going to handle the start game user interface stuff here.
+            Vector3 buttonPos = GameManager.m_startGameButtonS.transform.position;
+            Rect buttonRect = GameManager.m_startGameButtonS.GetComponent<RectTransform>().rect;
+            float buttonWidth = buttonRect.width;
+            float buttonHeight = buttonRect.height;
+
+            if (m_crosshairPos.x <= buttonPos.x + (buttonWidth / 2) && m_crosshairPos.x >= buttonPos.x - (buttonWidth / 2))
+            {
+                // We are inside the horizontal plane of the button.
+                if (m_crosshairPos.y <= buttonPos.y + (buttonHeight / 2) && m_crosshairPos.y >= buttonPos.y - (buttonHeight / 2))
+                {
+                    // We are inside both the horizontal and vertical plane of the button. AKA the crosshair is overlapping the button.
+                    GameManager.m_startGameButtonS.Select();
+                    GameManager.m_startGameButtonS.OnSelect(null);
+                    //GameManager.m_startGameButtonS.OnPointerEnter(null);
+
+                    if (Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
+                    {
+                        m_swappingToGameInput = true;
+
+                        GameManager.m_startGameButtonS.onClick.Invoke();
+                        Debug.Log("Button click registered.");
+                    }
+                }
+
+                else
+                {
+                    GameManager.m_startGameButtonS.OnDeselect(null);
+                }
+
+            }
+
+
+            else
+            {
+                GameManager.m_startGameButtonS.OnDeselect(null);
+            }
+        }
+
+        private void GameOverInput()
+        {
+            Vector3 buttonPos = GameManager.m_retryButtonS.transform.position;
+            Rect buttonRect = GameManager.m_retryButtonS.GetComponent<RectTransform>().rect;
+            float buttonWidth = buttonRect.width;
+            float buttonHeight = buttonRect.height;
+
+            if (m_crosshairPos.x <= buttonPos.x + (buttonWidth / 2) && m_crosshairPos.x >= buttonPos.x - (buttonWidth / 2))
+            {
+                // We are inside the horizontal plane of the button.
+                if (m_crosshairPos.y <= buttonPos.y + (buttonHeight / 2) && m_crosshairPos.y >= buttonPos.y - (buttonHeight / 2))
+                {
+                    // We are inside both the horizontal and vertical plane of the button. AKA the crosshair is overlapping the button.
+                    GameManager.m_retryButtonS.Select();
+                    GameManager.m_retryButtonS.OnSelect(null);
+                    //GameManager.m_startGameButtonS.OnPointerEnter(null);
+
+                    if (Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
+                    {
+                        m_swappingToGameInput = true;
+    
+                        GameManager.m_retryButtonS.onClick.Invoke();
+                        Debug.Log("Button click registered.");
+                    }
+                }
+
+                else
+                {
+                    GameManager.m_retryButtonS.OnDeselect(null);
+                }
+
+            }
+
+
+            else
+            {
+                GameManager.m_retryButtonS.OnDeselect(null);
+            }
         }
     }
 }

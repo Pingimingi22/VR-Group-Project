@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
     public int m_maxPlayerHealth = 100;
 
-    public int m_playerHealth;
+    public int m_playerHealth = 100;
 
 
     // Start is called before the first frame update
@@ -24,8 +24,13 @@ public class PlayerManager : MonoBehaviour
     public void RemoveHealth(int damage)
     {
         m_playerHealth -= damage;
-        if (m_playerHealth < 0)
+        if (m_playerHealth <= 0)
+        { 
             m_playerHealth = 0;
+            GameManager.EndGame();
+        }
+
+        
     }
 
     public void GainHealth(int health)
