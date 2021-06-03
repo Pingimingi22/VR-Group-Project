@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static bool m_isGameOver = false;
     private static bool m_gameOverCheck = false; // Used to make sure OnGameOver is only called once.
+
+    public static bool m_hasGameStarted = false; // I know it's weird to have both isGameOver and hasGameStarted but whatever lol.
 
     [Header("Player Points")]
     public int m_points;
@@ -25,6 +29,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Extra Canvas Things")]
     public Canvas m_gameOverCanvas;
+    public Canvas m_startGameCanvas;
+    public Button m_startGameButton; 
+    public static Button m_startGameButtonS; // Static version to be accessed within the PlayerController.cs script.
 
     // Highscore stuff.
     [HideInInspector]
@@ -38,37 +45,43 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Default save location: " + Application.persistentDataPath);
         FileManager.Load();
+
+        m_startGameButtonS = m_startGameButton;
 	}
 
 
 	// Update is called once per frame
 	void Update()
     {
-        if (m_spawnCooldown)
-        {
-            m_spawnCounter += Time.deltaTime;
-            if (m_spawnCounter >= m_spawnRate)
+        if (m_hasGameStarted)
+        { 
+            if (m_spawnCooldown)
             {
-                // Enough time has elapsed to reset the spawn cooldown.
-                m_spawnCooldown = false;
-                m_spawnCounter = 0;
+                m_spawnCounter += Time.deltaTime;
+                if (m_spawnCounter >= m_spawnRate)
+                {
+                    // Enough time has elapsed to reset the spawn cooldown.
+                    m_spawnCooldown = false;
+                    m_spawnCounter = 0;
+                }
+            }
+
+            if (!m_spawnCooldown && !m_isGameOver)
+            {
+                // We can spawn a fish!
+                GameObject fish = GenerateRandomFish();
+                SpawnFish(fish, m_fishSpawnZone);
+            }
+
+
+            // Handling game over stuff
+            if (m_isGameOver && !m_gameOverCheck)
+            {
+                m_gameOverCheck = true; // Setting this to true will prevent this from getting called again. So it will only be called once.
+                OnGameOver();
             }
         }
 
-        if (!m_spawnCooldown && !m_isGameOver)
-        {
-            // We can spawn a fish!
-            GameObject fish = GenerateRandomFish();
-            SpawnFish(fish, m_fishSpawnZone);
-        }
-
-
-        // Handling game over stuff
-        if (m_isGameOver && !m_gameOverCheck)
-        {
-            m_gameOverCheck = true; // Setting this to true will prevent this from getting called again. So it will only be called once.
-            OnGameOver();
-        }
 
     }
 
@@ -132,11 +145,22 @@ public class GameManager : MonoBehaviour
     public static void EndGame()
     {
         m_isGameOver = true;
+        if (m_currentScore > m_highScore)
+            m_highScore = m_currentScore;
     }
 
     public static void AddPoints(int points)
     {
         m_currentScore += points;
+    }
+
+
+    public void StartGame()
+    {
+        m_hasGameStarted = true;
+        m_startGameCanvas.gameObject.SetActive(false);
+
+        Debug.Log("Game Started");
     }
 
     

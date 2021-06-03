@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.EventSystems;
 namespace Player
 { 
     public class PlayerController : MonoBehaviour
@@ -70,13 +70,54 @@ namespace Player
 
             PrototypeMovement();
 
-            if (Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
+            if ((Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger)) && GameManager.m_hasGameStarted)
             {
+
                 // Shoot.
                 m_combatManager.Shoot(m_crosshair.transform.position);
+                
+                
             }
 
+            else // If the game hasn't started.
+            {
+                // Just for testing I'm going to handle the start game user interface stuff here.
+                Vector3 buttonPos = GameManager.m_startGameButtonS.transform.position;
+                Rect buttonRect = GameManager.m_startGameButtonS.GetComponent<RectTransform>().rect;
+                float buttonWidth = buttonRect.width;
+                float buttonHeight = buttonRect.height;
 
+                if (m_crosshairPos.x <= buttonPos.x + (buttonWidth / 2) && m_crosshairPos.x >= buttonPos.x - (buttonWidth / 2))
+                {
+                    // We are inside the horizontal plane of the button.
+                    if (m_crosshairPos.y <= buttonPos.y + (buttonHeight / 2) && m_crosshairPos.y >= buttonPos.y - (buttonHeight / 2))
+                    {
+                        // We are inside both the horizontal and vertical plane of the button. AKA the crosshair is overlapping the button.
+                        GameManager.m_startGameButtonS.Select();
+                        GameManager.m_startGameButtonS.OnSelect(null);
+                        //GameManager.m_startGameButtonS.OnPointerEnter(null);
+
+                        if (Input.GetAxis("Fire1") != 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
+                        {
+                            GameManager.m_startGameButtonS.onClick.Invoke();
+                            Debug.Log("Button click registered.");
+                        }
+                    }
+
+                    else
+                    {
+                        GameManager.m_startGameButtonS.OnDeselect(null);
+                    }
+
+                }
+
+
+                else
+                {
+                    GameManager.m_startGameButtonS.OnDeselect(null);
+                }
+
+            }
 
             // ------------ Line renderer stuff to help with debugging ------------ //
 
