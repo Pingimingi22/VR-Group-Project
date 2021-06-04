@@ -253,7 +253,7 @@ namespace Player
                     m_crosshairPos.x = ray.GetPoint(enter).x;
 
 
-                m_crosshairPos.z = ray.GetPoint(enter).z;
+                m_crosshairPos.z = m_canvas.transform.position.z;
 
 
                 //m_crosshairPos = ray.GetPoint(enter);
@@ -277,7 +277,13 @@ namespace Player
         private void MainMenuInput()
         {
             // Just for testing I'm going to handle the start game user interface stuff here.
-            Vector3 buttonPos = GameManager.m_startGameButtonS.transform.localPosition;
+            Vector3 buttonPos;
+            if(m_inEditor)
+                buttonPos = GameManager.m_startGameButtonS.transform.localPosition;                     // ==================================== NOTE ====================================== // 
+            else                                                                                        // Really dodgy but we have to use different position for different input.
+                buttonPos = GameManager.m_startGameButtonS.transform.position;
+
+
             Rect buttonRect = GameManager.m_startGameButtonS.GetComponent<RectTransform>().rect;
             float buttonWidth = buttonRect.width;
             float buttonHeight = buttonRect.height;
@@ -317,7 +323,12 @@ namespace Player
 
         private void GameOverInput()
         {
-            Vector3 buttonPos = GameManager.m_retryButtonS.transform.localPosition;
+            Vector3 buttonPos;
+            if (m_inEditor)
+                buttonPos = GameManager.m_retryButtonS.transform.localPosition;
+            else
+                buttonPos = GameManager.m_retryButtonS.transform.position;
+
             Rect buttonRect = GameManager.m_retryButtonS.GetComponent<RectTransform>().rect;
             float buttonWidth = buttonRect.width;
             float buttonHeight = buttonRect.height;
