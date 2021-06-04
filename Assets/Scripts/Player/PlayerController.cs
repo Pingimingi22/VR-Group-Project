@@ -47,6 +47,8 @@ namespace Player
 
         private bool m_swappingToGameInput = false;
 
+        private float m_originalCanvasDistance;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -55,6 +57,9 @@ namespace Player
             m_lineRenderer = gameObject.GetComponent<LineRenderer>();
 
             m_inEditor = Application.isEditor;
+
+            //m_originalCanvasDistance = Vector3.Distance(m_canvas.transform.position, Vector3.zero);
+
         }
     
         // Update is called once per frame
@@ -205,7 +210,7 @@ namespace Player
 
             bool hasHit = false;
 
-            Plane testPlane = new Plane(new Vector3(0, 0, -1), Vector3.Distance(m_canvas.transform.position, Vector3.zero));
+            Plane testPlane = new Plane(-transform.forward, Vector3.Distance(m_canvas.transform.position, Vector3.zero));
 
 
             float enter;

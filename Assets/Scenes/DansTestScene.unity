@@ -1454,7 +1454,7 @@ PrefabInstance:
       objectReference: {fileID: 1778107810}
     - target: {fileID: 1536903966, guid: 4680563fe2a4a8544b01b173487eeb48, type: 3}
       propertyPath: isFollowingPath
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1536903966, guid: 4680563fe2a4a8544b01b173487eeb48, type: 3}
       propertyPath: pathSegments.Array.data[0].pointCount
@@ -3516,17 +3516,17 @@ PrefabInstance:
     - target: {fileID: 7065445309596250880, guid: 4680563fe2a4a8544b01b173487eeb48,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -313
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7065445309596250880, guid: 4680563fe2a4a8544b01b173487eeb48,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.946
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 7065445309596250880, guid: 4680563fe2a4a8544b01b173487eeb48,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -153.03
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7065445309596250880, guid: 4680563fe2a4a8544b01b173487eeb48,
         type: 3}
