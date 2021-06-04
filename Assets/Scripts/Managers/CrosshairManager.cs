@@ -49,13 +49,20 @@ public class CrosshairManager : MonoBehaviour
             this.gameObject.transform.localScale = scaleChange;
             Debug.Log("removed length");
         }
+
+
+        //Matrix4x4 toSubSpace = theSubmarineTransform.whatever.GetInverse(); //TODO Replace this with actual code that works
+        Matrix4x4 toSubSpace = transform.root.localToWorldMatrix.inverse;
+        Vector4 cylinderPos = toSubSpace * cylinder.transform.position;
+        Vector4 outerBeamPos = toSubSpace * outerBeam.transform.position;
+
         if (initialXPos > 0)
         {
-            lengthX = (outerBeam.transform.position.x - cylinder.transform.position.x - 0.05f) * 10;
+            lengthX = (outerBeamPos.x - cylinderPos.x - 0.05f) * 10;
         }
         else
         {
-            lengthX = (cylinder.transform.position.x - outerBeam.transform.position.x - 0.05f) * 10;
+            lengthX = (cylinderPos.x - outerBeamPos.x - 0.05f) * 10;
         }
     }
 }

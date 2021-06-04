@@ -42,8 +42,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad6234ac1f137a4e8142710105a948f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bulletLifeTime: 0.5
+  m_bulletLifeTime: 1
   m_explosionParticles: {fileID: 8208010289947452474}
+  m_bulletDamage: 10
+  m_damageMultiplier: 2
 --- !u!1001 &2964834532410200661
 PrefabInstance:
   m_ObjectHideFlags: 0

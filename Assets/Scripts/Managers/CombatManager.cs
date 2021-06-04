@@ -91,6 +91,7 @@ public class CombatManager : MonoBehaviour
             // Maybe we can make two bullets per shot for the pew pew effect?
 
             GameObject newTorpedo1 = Instantiate(m_torpedo, m_shootTransform.position, Quaternion.LookRotation(dirRay.direction));
+            Debug.Log("Instantiated torpedo.");
             Debug.Log(dirRay.direction);
             //m_torpedo.transform.position = m_shootTransform.position;
 

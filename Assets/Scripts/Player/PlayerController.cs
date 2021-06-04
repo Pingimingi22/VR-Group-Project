@@ -98,6 +98,7 @@ namespace Player
             {
                 // Shoot.
                 m_combatManager.FireTorpedo(m_crosshair.transform.position);
+                Debug.Log("Fired torpedo.");
             }
 
 
