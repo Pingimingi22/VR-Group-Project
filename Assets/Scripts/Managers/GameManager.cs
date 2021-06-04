@@ -47,10 +47,19 @@ public class GameManager : MonoBehaviour
     public static int m_highScore = 0; // loaded in from previous session.
 
 
+	private void Awake()
+	{
+        //m_startGameButtonS = m_startGameButton;
+        //m_retryButtonS = m_retryButton;
+    }
+
 	private void Start()
 	{
 
         Debug.Log("Default save location: " + Application.persistentDataPath);
+
+       
+
         FileManager.Load();
 
         m_startGameButtonS = m_startGameButton;

@@ -55,7 +55,16 @@ public class FileManager
 		}
 		
 		BinaryFormatter bf = new BinaryFormatter();
-		GameManager.m_highScore = (int)bf.Deserialize(file);
+
+		try
+		{
+			GameManager.m_highScore = (int)bf.Deserialize(file);
+		}
+		catch
+		{
+			file.Close();
+			return;
+		}
 		
 		file.Close();
 	}
