@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class FollowPathScript : MonoBehaviour
 {
-
-
-
-
 	int current = 1;
 	int currentSegment = 0;
 	public float speed = 50;
