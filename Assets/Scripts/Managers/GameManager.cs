@@ -47,10 +47,19 @@ public class GameManager : MonoBehaviour
     public static int m_highScore = 0; // loaded in from previous session.
 
 
+	private void Awake()
+	{
+        //m_startGameButtonS = m_startGameButton;
+        //m_retryButtonS = m_retryButton;
+    }
+
 	private void Start()
 	{
 
         Debug.Log("Default save location: " + Application.persistentDataPath);
+
+       
+
         FileManager.Load();
 
         m_startGameButtonS = m_startGameButton;
@@ -148,13 +157,14 @@ public class GameManager : MonoBehaviour
     {
         m_gameOverCanvas.gameObject.SetActive(true);
         FileManager.Save();
+        if (m_currentScore > m_highScore)
+            m_highScore = m_currentScore;
     }
 
     public static void EndGame()
     {
         m_isGameOver = true;
-        if (m_currentScore > m_highScore)
-            m_highScore = m_currentScore;
+  
     }
 
     public static void AddPoints(int points)

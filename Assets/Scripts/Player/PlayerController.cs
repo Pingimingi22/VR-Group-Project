@@ -71,7 +71,7 @@ namespace Player
             }
             UpdateCrosshairImage();
 
-            PrototypeMovement();
+            //PrototypeMovement();
 
 
             
@@ -98,6 +98,7 @@ namespace Player
             {
                 // Shoot.
                 m_combatManager.FireTorpedo(m_crosshair.transform.position);
+                Debug.Log("Fired torpedo.");
             }
 
 
@@ -144,21 +145,21 @@ namespace Player
 
 
                 // Making it so they can't take the crosshair off screen.
-                if (m_crosshairPos.x > (m_canvas.transform.position.x + canvasWidth / 2))
+                if (m_crosshairPos.x > (m_canvas.transform.localPosition.x + canvasWidth / 2))
                 {
-                    m_crosshairPos.x = m_canvas.transform.position.x + canvasWidth / 2;
+                    m_crosshairPos.x = m_canvas.transform.localPosition.x + canvasWidth / 2;
                 }
-                if (m_crosshairPos.x < (m_canvas.transform.position.x - canvasWidth / 2))
+                if (m_crosshairPos.x < (m_canvas.transform.localPosition.x - canvasWidth / 2))
                 {
-                    m_crosshairPos.x = m_canvas.transform.position.x - canvasWidth / 2;
+                    m_crosshairPos.x = m_canvas.transform.localPosition.x - canvasWidth / 2;
                 }
-                if (m_crosshairPos.y > (m_canvas.transform.position.y + canvasHeight / 2))
+                if (m_crosshairPos.y > (m_canvas.transform.localPosition.y + canvasHeight / 2))
                 {
-                    m_crosshairPos.y = m_canvas.transform.position.y + canvasHeight / 2;
+                    m_crosshairPos.y = m_canvas.transform.localPosition.y + canvasHeight / 2;
                 }
-                if (m_crosshairPos.y < (m_canvas.transform.position.y - canvasHeight / 2))
+                if (m_crosshairPos.y < (m_canvas.transform.localPosition.y - canvasHeight / 2))
                 {
-                    m_crosshairPos.y = m_canvas.transform.position.y - canvasHeight / 2;
+                    m_crosshairPos.y = m_canvas.transform.localPosition.y - canvasHeight / 2;
                 }
 
             }
@@ -253,7 +254,7 @@ namespace Player
                     m_crosshairPos.x = ray.GetPoint(enter).x;
 
 
-                m_crosshairPos.z = ray.GetPoint(enter).z;
+                m_crosshairPos.z = m_canvas.transform.position.z;
 
 
                 //m_crosshairPos = ray.GetPoint(enter);
@@ -263,7 +264,7 @@ namespace Player
             }
             else
             {
-                m_crosshairPos += Vector3.forward * Time.deltaTime * m_movementSpeed;
+                //m_crosshairPos += Vector3.forward * Time.deltaTime * m_movementSpeed;
             }
 
             //if (!hasHit)
@@ -277,7 +278,13 @@ namespace Player
         private void MainMenuInput()
         {
             // Just for testing I'm going to handle the start game user interface stuff here.
-            Vector3 buttonPos = GameManager.m_startGameButtonS.transform.position;
+            Vector3 buttonPos;
+            if(m_inEditor)
+                buttonPos = GameManager.m_startGameButtonS.transform.localPosition;                     // ==================================== NOTE ====================================== // 
+            else                                                                                        // Really dodgy but we have to use different position for different input.
+                buttonPos = GameManager.m_startGameButtonS.transform.position;
+
+
             Rect buttonRect = GameManager.m_startGameButtonS.GetComponent<RectTransform>().rect;
             float buttonWidth = buttonRect.width;
             float buttonHeight = buttonRect.height;
@@ -317,7 +324,12 @@ namespace Player
 
         private void GameOverInput()
         {
-            Vector3 buttonPos = GameManager.m_retryButtonS.transform.position;
+            Vector3 buttonPos;
+            if (m_inEditor)
+                buttonPos = GameManager.m_retryButtonS.transform.localPosition;
+            else
+                buttonPos = GameManager.m_retryButtonS.transform.position;
+
             Rect buttonRect = GameManager.m_retryButtonS.GetComponent<RectTransform>().rect;
             float buttonWidth = buttonRect.width;
             float buttonHeight = buttonRect.height;

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: -321177761403250093}
   - component: {fileID: 4351117664190762932}
   - component: {fileID: 5187334573901428351}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rotated Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,6 +78,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_bulletLifeTime: 4
   m_explosionParticles: {fileID: 0}
+  m_bulletDamage: 5
+  m_damageMultiplier: 2
 --- !u!1001 &912898621613298448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159,6 +161,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6853063853072525305, guid: 77da3d911dba61d47b82463b9c517678,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5239162851411009073, guid: 77da3d911dba61d47b82463b9c517678, type: 3}

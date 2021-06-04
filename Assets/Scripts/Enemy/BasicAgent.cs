@@ -103,14 +103,14 @@ public class BasicAgent : MonoBehaviour
         Debug.Log("Enemy took damage");
     }
 
-	private void OnTriggerEnter (Collider collision)
-	{
-        if (collision.gameObject.tag == "Bullet")
-        {
-            TakeDamage(m_combatManager.m_basicGunDamage);
-            Destroy(collision.gameObject); // Removing the bullet after it hit's the enemy.
-        }
-	}
+	//private void OnTriggerEnter (Collider collision)
+	//{
+    //    if (collision.gameObject.tag == "Bullet")
+    //    {
+    //        TakeDamage(m_combatManager.m_basicGunDamage);
+    //        Destroy(collision.gameObject); // Removing the bullet after it hit's the enemy.
+    //    }
+	//}
 
 
 }

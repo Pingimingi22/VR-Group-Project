@@ -12,6 +12,9 @@ public class Bullet : MonoBehaviour
 
     public ParticleSystem m_explosionParticles;
 
+    public int m_bulletDamage = 10;
+    public int m_damageMultiplier = 2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,5 +44,23 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+
+	private void OnTriggerEnter(Collider other)
+	{
+        if (other.gameObject.layer == LayerMask.NameToLayer("DamageHitBox"))
+        {
+            other.GetComponentInParent<BasicAgent>().TakeDamage(m_bulletDamage);
+            Destroy(gameObject); // Removing the bullet after it hit's the enemy.
+
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("CritHitBox"))
+        {
+            other.GetComponentInParent<BasicAgent>().TakeDamage(m_bulletDamage * m_damageMultiplier);
+            Destroy(gameObject); // Removing the bullet after it hit's the enemy.
+        }
+
+        
     }
 }

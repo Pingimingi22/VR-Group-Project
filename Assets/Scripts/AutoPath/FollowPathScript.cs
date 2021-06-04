@@ -4,15 +4,13 @@ using System.Collections.Generic;
 
 public class FollowPathScript : MonoBehaviour
 {
-
-
-
-
 	int current = 1;
 	int currentSegment = 0;
 	public float speed = 50;
 	public List<BezierPath> pathSegments;
 	public bool isFollowingPath = false;
+
+	public float turnSmoothness = 0.25f;
 
 
 	//calls UpdatePath for all segments
@@ -35,16 +33,19 @@ public class FollowPathScript : MonoBehaviour
 	void Update()
 	{
 
+
 		if (isFollowingPath)
 		{
 			float distanceToMove = speed * Time.deltaTime;
 			float distanceToNextPoint = Vector3.Distance(transform.position, pathSegments[currentSegment].pathPoints[current]);
 
+			
 
 			while (distanceToNextPoint < distanceToMove)
             {
 				distanceToMove -= distanceToNextPoint;
 
+				transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, pathSegments[currentSegment].pathPoints[current] - transform.position, turnSmoothness * Time.deltaTime, 0));
 				transform.position = pathSegments[currentSegment].pathPoints[current];
 				ChangeTrgetPointToNextPoint();
 
@@ -53,6 +54,7 @@ public class FollowPathScript : MonoBehaviour
 
 			if (Vector3.Distance(transform.position, pathSegments[currentSegment].pathPoints[current]) >= 0.1)
 			{
+				transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, pathSegments[currentSegment].pathPoints[current] - transform.position, turnSmoothness * Time.deltaTime, 0));
 				transform.position = Vector3.MoveTowards(transform.position, pathSegments[currentSegment].pathPoints[current], speed * Time.deltaTime);
 
 			}
