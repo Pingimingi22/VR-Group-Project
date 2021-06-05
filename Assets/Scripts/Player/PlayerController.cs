@@ -49,6 +49,13 @@ namespace Player
 
         private float m_originalCanvasDistance;
 
+        private float testCounter = 0;// just for testing delete this later.
+
+        // more test stuff delete this later
+        public float xTest;
+        public float yTest;
+        public float zTest;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -58,13 +65,16 @@ namespace Player
 
             m_inEditor = Application.isEditor;
 
-            //m_originalCanvasDistance = Vector3.Distance(m_canvas.transform.position, Vector3.zero);
+            m_originalCanvasDistance = Vector3.Distance(m_canvas.transform.position, transform.root.position);
 
         }
     
         // Update is called once per frame
         void Update()
         {
+
+            // delete this it's just for testing.
+            //TestRotate();
 
             if (m_inEditor)
             {
@@ -205,13 +215,21 @@ namespace Player
         /// </summary>
         void VRPointerUpdate()
         {
+
+            Matrix4x4 subSpace = transform.root.localToWorldMatrix.inverse;
+            Matrix4x4 worldSpace = transform.root.localToWorldMatrix;
+
+            Vector3 pointerSubSpace = subSpace * pointer.position;
+            Vector3 canvasSubSpace = subSpace * m_canvas.transform.position;
+
             Ray ray = new Ray(pointer.position, pointer.forward);
             RaycastHit hit;
 
             bool hasHit = false;
 
-            Plane testPlane = new Plane(-transform.forward, Vector3.Distance(m_canvas.transform.position, Vector3.zero));
-
+            //Plane testPlane = new Plane(-transform.forward, m_originalCanvasDistance);
+            Plane testPlane = new Plane(-transform.forward, transform.position + (transform.forward * Vector3.Distance(m_canvas.transform.position, transform.root.position)));
+           
 
             float enter;
             if (testPlane.Raycast(ray, out enter))
@@ -225,44 +243,87 @@ namespace Player
 
                 bool isXSet = false;
                 bool isYSet = false;
+                bool isZSet = false;
 
                 // The reason for these if statements is so that when the cursor is moved outside of the submarines viewport, it doesn't just stop moving completely. It will keep moving but be confined to
                 // the minimum and maximum extents of the view port.
 
-                if (ray.GetPoint(enter).x > m_canvas.transform.position.x + (canvasWidth / 2))
+                Vector3 point = subSpace * ray.GetPoint(enter);
+                Vector3 worldPoint = worldSpace * point;
+                Vector3 worldCanvas = worldSpace * canvasSubSpace;
+
+                if (point.x > canvasSubSpace.x + (canvasWidth / 2))
                 {
-                    m_crosshairPos.x = m_canvas.transform.position.x + (canvasWidth / 2);
+                    Vector3 edgePoint = new Vector3(canvasSubSpace.x + (canvasWidth / 2), canvasSubSpace.y, canvasSubSpace.z);
+                    //edgePoint = worldSpace * edgePoint;
+                    //m_crosshairPos.x = m_canvas.transform.position.x + (canvasWidth / 2);
+                    m_crosshairPos.x = edgePoint.x;
                     isXSet = true;
+
+                    //m_crosshairPos.z = edgePoint.z;
+                    //isZSet = true;
                 }
-                else if (ray.GetPoint(enter).x < m_canvas.transform.position.x - (canvasWidth / 2))
+                else if (point.x < canvasSubSpace.x - (canvasWidth / 2))
                 {
-                    m_crosshairPos.x = m_canvas.transform.position.x - (canvasWidth / 2);
+                    Vector3 edgePoint = new Vector3(canvasSubSpace.x - (canvasWidth / 2), canvasSubSpace.y, canvasSubSpace.z);
+                    //edgePoint = worldSpace * edgePoint;
+                    //m_crosshairPos.x = m_canvas.transform.position.x - (canvasWidth / 2);
+                    m_crosshairPos.x = edgePoint.x;
                     isXSet = true;
+
+                    //m_crosshairPos.z = edgePoint.z;
+                    //isZSet = true;
+                }
+                
+                if (point.y > canvasSubSpace.y + (canvasHeight / 2))
+                {
+                    Vector3 edgePoint = new Vector3(canvasSubSpace.x, canvasSubSpace.y + (canvasHeight / 2), canvasSubSpace.z);
+                    //edgePoint = worldSpace * edgePoint;
+                
+                    //m_crosshairPos.y = m_canvas.transform.position.y + (canvasHeight / 2);
+                    m_crosshairPos.y = edgePoint.y;
+                    isYSet = true;
+
+                    //m_crosshairPos.z = edgePoint.z;
+                    //isZSet = true;
+                }
+                else if (point.y < canvasSubSpace.y - (canvasHeight / 2))
+                {
+                
+                    Vector3 edgePoint = new Vector3(canvasSubSpace.x, canvasSubSpace.y - (canvasHeight / 2), canvasSubSpace.z);
+                    //edgePoint = worldSpace * edgePoint;
+                
+                    //m_crosshairPos.y = m_canvas.transform.position.y + (canvasHeight / 2);
+                    m_crosshairPos.y = edgePoint.y;
+                    isYSet = true;
+
+                    //m_crosshairPos.z = edgePoint.z;
+                    //isZSet = true;
                 }
 
-                if (ray.GetPoint(enter).y > m_canvas.transform.position.y + (canvasHeight / 2))
-                {
-                    m_crosshairPos.y = m_canvas.transform.position.y + (canvasHeight / 2);
-                    isYSet = true;
-                }
-                else if (ray.GetPoint(enter).y < m_canvas.transform.position.y - (canvasHeight / 2))
-                {
-                    m_crosshairPos.y = m_canvas.transform.position.y - (canvasHeight / 2);
-                    isYSet = true;
-                }
 
+                Vector3 cursorPos = subSpace * ray.GetPoint(enter);
 
                 // Making sure the crosshair has been set to something.
                 if (!isYSet)
-                    m_crosshairPos.y = ray.GetPoint(enter).y;
+                {
+                    m_crosshairPos.y = cursorPos.y;
+                }
                 if (!isXSet)
-                    m_crosshairPos.x = ray.GetPoint(enter).x;
+                {
+                    m_crosshairPos.x = cursorPos.x;
+                }
+                      
+                m_crosshairPos.z = cursorPos.z;
 
+                m_crosshairPos = worldSpace * m_crosshairPos;
 
-                m_crosshairPos.z = m_canvas.transform.position.z;
-
-
+   
+               
                 //m_crosshairPos = ray.GetPoint(enter);
+
+
+  
 
                 //hasHit = true;
                 //}
@@ -371,5 +432,142 @@ namespace Player
                 GameManager.m_retryButtonS.OnDeselect(null);
             }
         }
-    }
+
+
+
+
+		private void OnDrawGizmos()
+		{
+            float canvasWidth = m_canvas.GetComponent<RectTransform>().rect.width;
+            float canvasHeight = m_canvas.GetComponent<RectTransform>().rect.height;
+
+            Matrix4x4 subSpace = transform.localToWorldMatrix.inverse;
+            Matrix4x4 worldSpace = transform.root.localToWorldMatrix;
+
+            Vector3 canvasSubSpace = subSpace * m_canvas.transform.position;
+
+            Vector3 xRight = new Vector3(canvasSubSpace.x + (canvasWidth / 2), canvasSubSpace.y, canvasSubSpace.z);
+            xRight = worldSpace * xRight;
+
+            Gizmos.DrawSphere(xRight, 0.1f);
+
+            Vector3 centre = worldSpace * canvasSubSpace;
+            Gizmos.DrawSphere(centre, 0.1f);
+
+            Vector3 edgePoint1 = new Vector3(canvasSubSpace.x, canvasSubSpace.y - (canvasHeight / 2), canvasSubSpace.z);
+            edgePoint1 = worldSpace * edgePoint1;
+
+            Gizmos.DrawSphere(edgePoint1, 0.1f);
+
+            Vector3 edgePoint2 = new Vector3(canvasSubSpace.x - (canvasWidth / 2), canvasSubSpace.y, canvasSubSpace.z);
+            edgePoint2 = worldSpace * edgePoint2;
+
+            Gizmos.DrawSphere(edgePoint2, 0.1f);
+
+
+            Ray ray = new Ray(pointer.position, pointer.forward);
+            //Ray ray = new Ray(pointer.position, new Vector3(pointer.forward.x + xTest, pointer.forward.y + yTest, pointer.forward.z + zTest));
+
+            Plane testPlane = new Plane(-transform.forward, transform.position + (transform.forward * Vector3.Distance(m_canvas.transform.position, transform.root.position)));
+            
+            float enter;
+            testPlane.Raycast(ray, out enter);
+
+            
+            Gizmos.DrawLine(transform.position, transform.position + (transform.forward * Vector3.Distance(m_canvas.transform.position, transform.root.position)));
+            
+
+            Color colourCache = Gizmos.color;
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(transform.position, 0.05f);
+
+
+
+
+
+            bool isXSet = false;
+            bool isYSet = false;
+            Vector3 point = subSpace * ray.GetPoint(enter);
+            Vector3 modifiedGizmoPos = Vector3.zero;
+
+            if (point.x > canvasSubSpace.x + (canvasWidth / 2))
+            {
+                Vector3 edgePoint = new Vector3(canvasSubSpace.x + (canvasWidth / 2), canvasSubSpace.y, canvasSubSpace.z);
+                //edgePoint = worldSpace * edgePoint;
+                //m_crosshairPos.x = m_canvas.transform.position.x + (canvasWidth / 2);
+                modifiedGizmoPos.x = edgePoint.x;
+                isXSet = true;
+            
+                //m_crosshairPos.z = edgePoint.z;
+                //isZSet = true;
+            }
+            else if (point.x < canvasSubSpace.x - (canvasWidth / 2))
+            {
+                Vector3 edgePoint = new Vector3(canvasSubSpace.x - (canvasWidth / 2), canvasSubSpace.y, canvasSubSpace.z);
+                //edgePoint = worldSpace * edgePoint;
+                //m_crosshairPos.x = m_canvas.transform.position.x - (canvasWidth / 2);
+                modifiedGizmoPos.x = edgePoint.x;
+                isXSet = true;
+            
+                //m_crosshairPos.z = edgePoint.z;
+                //isZSet = true;
+            }
+            
+            if (point.y > canvasSubSpace.y + (canvasHeight / 2))
+            {
+                Vector3 edgePoint = new Vector3(canvasSubSpace.x, canvasSubSpace.y + (canvasHeight / 2), canvasSubSpace.z);
+                //edgePoint = worldSpace * edgePoint;
+            
+                //m_crosshairPos.y = m_canvas.transform.position.y + (canvasHeight / 2);
+                modifiedGizmoPos.y = edgePoint.y;
+                isYSet = true;
+            
+                //m_crosshairPos.z = edgePoint.z;
+                //isZSet = true;
+            }
+            else if (point.y < canvasSubSpace.y - (canvasHeight / 2))
+            {
+            
+                Vector3 edgePoint = new Vector3(canvasSubSpace.x, canvasSubSpace.y - (canvasHeight / 2), canvasSubSpace.z);
+                //edgePoint = worldSpace * edgePoint;
+            
+                //m_crosshairPos.y = m_canvas.transform.position.y + (canvasHeight / 2);
+                modifiedGizmoPos.y = edgePoint.y;
+                isYSet = true;
+            
+                //m_crosshairPos.z = edgePoint.z;
+                //isZSet = true;
+            }
+
+            Vector3 testRayPoint = subSpace * ray.GetPoint(enter);
+
+            if (!isXSet)
+                modifiedGizmoPos.x = testRayPoint.x;
+            if (!isYSet)
+                modifiedGizmoPos.y = testRayPoint.y;
+
+            modifiedGizmoPos.z = testRayPoint.z;
+
+            Gizmos.DrawSphere(worldSpace * modifiedGizmoPos, 0.1f);
+
+            //Gizmos.DrawSphere(ray.GetPoint(enter), 0.05f);
+
+
+
+
+            Gizmos.color = colourCache;
+        }
+
+        void TestRotate()
+        {
+            testCounter += Time.deltaTime;
+
+            if (testCounter >= 0.01f)
+            { 
+                Quaternion rotationEuler = Quaternion.Euler(transform.rotation.x, transform.rotation.y + 1, transform.rotation.z);
+                transform.Rotate(0, 0.25f, 0);
+                testCounter = 0;
+            }
+        }
+	}
 }
