@@ -42,7 +42,8 @@ public class CombatManager : MonoBehaviour
     private float m_basicGunCounter = 0.0f;
     private bool m_isBasicCooldown = false;
 
-    private float m_torpedoGunCounter = 0.0f;
+    [HideInInspector]
+    public float m_torpedoGunCounter = 0.0f;
     private bool m_isTorpedoCooldown = false;
 
     // Start is called before the first frame update
