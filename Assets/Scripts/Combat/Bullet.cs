@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     private bool m_isActive = false;
     private float m_counter = 0.0f;
 
+    public float m_explosionRadius = 5;//need to play around with this value
     public ParticleSystem m_explosionParticles;
 
     public int m_bulletDamage = 10;
@@ -31,7 +32,7 @@ public class Bullet : MonoBehaviour
             if (m_counter >= m_bulletLifeTime)
             {
                 // The bullet has reached it's max life time.
-                if (this.gameObject.tag == "Shell")
+                if (this.gameObject.CompareTag("Shell"))
                 {
                     Debug.Log("destroy torpedo");
                     m_explosionParticles.transform.parent = null;
@@ -46,21 +47,94 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private int CalculateDamage(Vector3 targetPosition)
+    {
+        // Create a vector from the shell to the target
+        Vector3 explosionToTarget = targetPosition - transform.position;
+        Debug.Log(explosionToTarget);
 
-	private void OnTriggerEnter(Collider other)
+        // Calculate the distance from the shell to the target
+        float explosionDistance = explosionToTarget.magnitude;
+        Debug.Log(explosionDistance);
+
+        // Calculate the proportion of the maximum distance (the explosionRadius)
+        // the target is away
+        float relativeDistance = (m_explosionRadius - explosionDistance) / m_explosionRadius;
+        Debug.Log(relativeDistance);
+
+        // Calculate damage as this proportion of the maximum possible damage
+        float damage = relativeDistance * m_bulletDamage;
+        Debug.Log(damage);
+
+        // Make sure that the minimum damage is always 0
+        damage = Mathf.Max(0f, (int)damage);
+        Debug.Log(damage);
+
+        return (int)damage;
+    }
+
+    private void OnTriggerEnter(Collider other)
 	{
         if (other.gameObject.layer == LayerMask.NameToLayer("DamageHitBox"))
         {
             other.GetComponentInParent<BasicAgent>().TakeDamage(m_bulletDamage);
+
+            if (this.gameObject.CompareTag("Shell"))
+            {
+                Rigidbody targetRigidbody = other.gameObject.GetComponentInParent<Rigidbody>();
+
+                if (targetRigidbody != null)
+                {
+                    BasicAgent fish = targetRigidbody.GetComponent<BasicAgent>();
+
+                    if (fish.m_health != 0)
+                    {
+                        int damage = CalculateDamage(targetRigidbody.position);
+                        Debug.Log(damage + "damage");
+
+                        fish.GetComponent<BasicAgent>().TakeDamage(damage);
+                    }
+                }
+
+                m_explosionParticles.transform.parent = null;
+
+                m_explosionParticles.Play();
+
+                Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
+            }
+
             Destroy(gameObject); // Removing the bullet after it hit's the enemy.
 
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("CritHitBox"))
         {
             other.GetComponentInParent<BasicAgent>().TakeDamage(m_bulletDamage * m_damageMultiplier);
+
+            if (this.gameObject.CompareTag("Shell"))
+            {
+                Rigidbody targetRigidbody = other.gameObject.GetComponentInParent<Rigidbody>();
+
+                if (targetRigidbody != null)
+                {
+                    BasicAgent fish = targetRigidbody.GetComponent<BasicAgent>();
+
+                    if (fish.m_health != 0)
+                    {
+                        int damage = CalculateDamage(targetRigidbody.position);
+                        Debug.Log(damage + "damage");
+
+                        fish.GetComponent<BasicAgent>().TakeDamage(damage);
+                    }
+                }
+
+                m_explosionParticles.transform.parent = null;
+
+                m_explosionParticles.Play();
+
+                Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
+            }
+
             Destroy(gameObject); // Removing the bullet after it hit's the enemy.
         }
-
-        
     }
 }

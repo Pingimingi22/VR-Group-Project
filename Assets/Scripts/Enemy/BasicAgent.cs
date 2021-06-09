@@ -100,7 +100,7 @@ public class BasicAgent : MonoBehaviour
             GameManager.AddPoints(m_pointsReward);
         }
 
-        Debug.Log("Enemy took damage");
+        Debug.Log("Enemy took " + damage + " damage");
     }
 
 	//private void OnTriggerEnter (Collider collision)
