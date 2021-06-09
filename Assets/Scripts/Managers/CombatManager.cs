@@ -13,12 +13,17 @@ public class CombatManager : MonoBehaviour
     public Camera m_uiCamera;
 
     [Header("Gun/Bullet Stats:")]
+    [Header("Basic Gun Stats:")]
     //public int m_basicGunDamage = 10; // We no longer use the damage here. It's in the bullet script.
     public float m_bulletSpeed = 100.0f; // Maybe it will be hitscan?? So if it is hitscan I guess we wouldn't need a bullet speed. But for now I'll make it like this
                                          // So we can see bullets moving across the screen.
-
     [Tooltip("Time between shots.")]
     public float m_basicGunFireRate = 0.25f;
+
+    [Header("Torpedo Gun Stats:")]
+    public float m_torpedoBulletSpeed = 100.0f;
+    public float m_torpedoGunFireRate = 0.25f;
+
 
     [Header("Bullet Assets")]
     public GameObject m_basicBullet;
@@ -36,6 +41,9 @@ public class CombatManager : MonoBehaviour
     // Timer stuff.
     private float m_basicGunCounter = 0.0f;
     private bool m_isBasicCooldown = false;
+
+    private float m_torpedoGunCounter = 0.0f;
+    private bool m_isTorpedoCooldown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +63,18 @@ public class CombatManager : MonoBehaviour
                 // The cooldown duration has elapsed.
                 m_isBasicCooldown = false;
                 m_basicGunCounter = 0;
+            }
+        }
+
+        if (m_isTorpedoCooldown)
+        {
+            // The torpedo has fired and now has to cooldown,
+            m_torpedoGunCounter += Time.deltaTime;
+            if (m_torpedoGunCounter >= m_torpedoGunFireRate)
+            {
+                // Cooldown duration elapsed.
+                m_isTorpedoCooldown = false;
+                m_torpedoGunCounter = 0.0f;
             }
         }
     }
@@ -84,7 +104,7 @@ public class CombatManager : MonoBehaviour
 
     public void FireTorpedo(Vector3 crosshairPos)
     {
-        if (!m_isBasicCooldown) // Can only shoot if the gun is ready.
+        if (!m_isTorpedoCooldown) // Can only shoot if the gun is ready.
         {
             Ray dirRay = new Ray(Vector3.zero, crosshairPos - m_uiCamera.transform.position);
 
@@ -97,10 +117,10 @@ public class CombatManager : MonoBehaviour
 
             Rigidbody torpedo1Rigidbody = newTorpedo1.GetComponent<Rigidbody>();
             //bullet1Rigidbody.velocity = m_bulletSpeed * dirRay.direction;
-            torpedo1Rigidbody.AddForce(dirRay.direction * m_bulletSpeed, ForceMode.Impulse);
+            torpedo1Rigidbody.AddForce(dirRay.direction * m_torpedoBulletSpeed, ForceMode.Impulse);
 
             // ------------------- //
-            m_isBasicCooldown = true; // Setting to true to start the cooldown.
+            m_isTorpedoCooldown = true; // Setting to true to start the cooldown.
         }
 
     }
