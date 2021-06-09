@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletLifeTime: 1
+  m_explosionRadius: 1
   m_explosionParticles: {fileID: 8208010289947452474}
   m_bulletDamage: 10
   m_damageMultiplier: 2
@@ -132,6 +133,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Shell
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f23913d865919b94a8a014a2a9febf3f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f23913d865919b94a8a014a2a9febf3f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f23913d865919b94a8a014a2a9febf3f, type: 3}

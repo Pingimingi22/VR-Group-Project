@@ -225,6 +225,12 @@ MonoBehaviour:
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
   m_AllowActivationOnMobileDevice: 1
+--- !u!65 &321752964 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 2377945286288724855, guid: 4680563fe2a4a8544b01b173487eeb48,
+    type: 3}
+  m_PrefabInstance: {fileID: 7065445310138855129}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &398534485
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,12 +323,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!65 &502338552 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 502338552, guid: 4680563fe2a4a8544b01b173487eeb48,
-    type: 3}
-  m_PrefabInstance: {fileID: 7065445310138855129}
-  m_PrefabAsset: {fileID: 0}
 --- !u!20 &839810688 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 7065445310910746713, guid: 4680563fe2a4a8544b01b173487eeb48,
@@ -440,13 +440,13 @@ MonoBehaviour:
     type: 3}
   m_largeFish: {fileID: 2701036019955655299, guid: 0fc84c28b5dea3a4cbcca67b6b49a9aa,
     type: 3}
-  m_fishSpawnZone: {fileID: 502338552}
+  m_fishSpawnZone: {fileID: 321752964}
   m_spawnRate: 1
-  m_gameOverCanvas: {fileID: 0}
-  m_startGameCanvas: {fileID: 0}
-  m_startGameButton: {fileID: 0}
-  m_retryButton: {fileID: 0}
-  m_playerManager: {fileID: 0}
+  m_gameOverCanvas: {fileID: 7065445310138855133}
+  m_startGameCanvas: {fileID: 7065445310138855131}
+  m_startGameButton: {fileID: 7065445310138855130}
+  m_retryButton: {fileID: 7065445310138855132}
+  m_playerManager: {fileID: 1621728730}
 --- !u!1 &2102570217
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,3 +669,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4680563fe2a4a8544b01b173487eeb48, type: 3}
+--- !u!114 &7065445310138855130 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 995688701, guid: 4680563fe2a4a8544b01b173487eeb48,
+    type: 3}
+  m_PrefabInstance: {fileID: 7065445310138855129}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!223 &7065445310138855131 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 712111527, guid: 4680563fe2a4a8544b01b173487eeb48,
+    type: 3}
+  m_PrefabInstance: {fileID: 7065445310138855129}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7065445310138855132 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1517375428, guid: 4680563fe2a4a8544b01b173487eeb48,
+    type: 3}
+  m_PrefabInstance: {fileID: 7065445310138855129}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!223 &7065445310138855133 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 235255743, guid: 4680563fe2a4a8544b01b173487eeb48,
+    type: 3}
+  m_PrefabInstance: {fileID: 7065445310138855129}
+  m_PrefabAsset: {fileID: 0}
