@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Other Manager References")]
     public PlayerManager m_playerManager;
+    public CombatManager m_combatManager;
 
     // Highscore stuff.
     [HideInInspector]
@@ -155,6 +156,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void OnGameOver()
     {
+        // If they shot a torpedo, lets reset the cooldown since we want them to start completely fresh.
+        m_combatManager.m_torpedoGunCounter = 0.0f;
+        m_combatManager.m_isTorpedoCooldown = false;
+
         m_gameOverCanvas.gameObject.SetActive(true);
         FileManager.Save();
         if (m_currentScore > m_highScore)
@@ -181,6 +186,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Started");
     }
 
+    /// <summary>
+    /// RestartGame() has no references because it is called as a callback function on a UI button.
+    /// </summary>
     public void RestartGame()
     {
         m_hasGameStarted = true;
@@ -194,6 +202,9 @@ public class GameManager : MonoBehaviour
         m_currentScore = 0;
 
         m_playerManager.m_playerHealth = m_playerManager.m_maxPlayerHealth;
+
+
+        
 
         GameObject[] m_allEnemies = GameObject.FindGameObjectsWithTag("Enemy"); // Clearing all current enemies on the screen.
         for (int i = 0; i < m_allEnemies.Length; i++)

@@ -46,6 +46,7 @@ namespace Player
 
 
         private bool m_swappingToGameInput = false;
+        
 
         private float m_originalCanvasDistance;
 
@@ -109,7 +110,7 @@ namespace Player
 
 
             }
-            else if (Input.GetAxis("Fire2") != 0)
+            else if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput)
             {
                 // Shoot.
                 m_combatManager.FireTorpedo(m_crosshair.transform.position);
