@@ -229,7 +229,10 @@ namespace Player
 
             //Plane testPlane = new Plane(-transform.forward, m_originalCanvasDistance);
             Plane testPlane = new Plane(-transform.forward, transform.position + (transform.forward * Vector3.Distance(m_canvas.transform.position, transform.root.position)));
-           
+
+
+            
+             
 
             float enter;
             if (testPlane.Raycast(ray, out enter))

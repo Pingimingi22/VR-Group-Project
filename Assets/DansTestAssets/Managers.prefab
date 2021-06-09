@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_mainCamera: {fileID: 0}
   m_uiCamera: {fileID: 0}
-  m_basicGunDamage: 10
   m_bulletSpeed: 100
   m_basicGunFireRate: 0.2
   m_basicBullet: {fileID: 1924044320995973810, guid: a829c6d18b7b5f04bb8e22e50c7a4d9b,
