@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Shell
   - Enemy
+  - AgentTarget
   layers:
   - Default
   - TransparentFX

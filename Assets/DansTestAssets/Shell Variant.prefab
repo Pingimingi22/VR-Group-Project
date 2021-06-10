@@ -42,7 +42,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad6234ac1f137a4e8142710105a948f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bulletLifeTime: 1
+  m_bulletLifeTime: 3
   m_explosionRadius: 10
   m_explosionParticles: {fileID: 8208010289947452474}
   m_bulletDamage: 10
