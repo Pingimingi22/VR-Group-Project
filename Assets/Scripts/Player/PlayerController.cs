@@ -30,6 +30,9 @@ namespace Player
         [Header("VR Stuff")]
         public Transform pointer;
 
+       
+       
+
         // -------------------------------------------------------------------------------- //
 
         Vector3 m_crosshairPos = Vector3.zero; // This is what moving the joysticks will be changing. We will then apply this to the image and other stuff.
@@ -57,6 +60,10 @@ namespace Player
         public float yTest;
         public float zTest;
 
+
+        [HideInInspector]
+        public AudioSource m_audioSource;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -68,6 +75,7 @@ namespace Player
 
             m_originalCanvasDistance = Vector3.Distance(m_canvas.transform.position, transform.root.position);
 
+            m_audioSource = GetComponent<AudioSource>();
         }
     
         // Update is called once per frame
@@ -108,6 +116,9 @@ namespace Player
                 // Shoot.
                 m_combatManager.Shoot(m_crosshair.transform.position);
 
+                if(m_audioSource.isPlaying == false)
+                    m_audioSource.Play();
+
 
             }
             else if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput)
@@ -117,7 +128,7 @@ namespace Player
                 Debug.Log("Fired torpedo.");
             }
 
-
+            
             else if (GameManager.m_isGameOver)
             {
                 GameOverInput();
@@ -126,7 +137,12 @@ namespace Player
             {
                 MainMenuInput();
             }
-            
+
+
+            if (((Input.GetAxis("Fire1") == 0) || OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger)) || GameManager.m_isGameOver)
+            {
+                m_audioSource.Stop();
+            }
 
             // ------------ Line renderer stuff to help with debugging ------------ //
 
