@@ -17,9 +17,8 @@ public class Bullet : MonoBehaviour
     public int m_damageMultiplier = 2;
     public GameObject sphere;
 
-
-    [Header("Audio")]
-    public AudioSource m_torpedoExplosionSound;
+    [Tooltip("Only have to set for torpedo bullets.")]
+    public GameObject m_explosionAudioObject;
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +45,8 @@ public class Bullet : MonoBehaviour
 
                     m_explosionParticles.Play();
 
-         
+                    CreateAudioObject(m_explosionParticles.transform.position);
+
                     Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
                     
                 }
@@ -114,6 +114,8 @@ public class Bullet : MonoBehaviour
 
                 m_explosionParticles.Play();
 
+                CreateAudioObject(m_explosionParticles.transform.position);
+
                 Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
             }
 
@@ -148,11 +150,22 @@ public class Bullet : MonoBehaviour
 
                 m_explosionParticles.Play();
 
+                CreateAudioObject(m_explosionParticles.transform.position);
+
                 Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
                 
             }
 
             Destroy(gameObject); // Removing the bullet after it hit's the enemy.
         }
+    }
+
+    /// <summary>
+    /// CreateAudioObject() will make the explosion audio game object that plays the underwater explosion sound.
+    /// </summary>
+    private void CreateAudioObject(Vector3 pos)
+    {
+        m_explosionAudioObject = GameObject.Instantiate(m_explosionAudioObject);
+        m_explosionAudioObject.transform.position = pos;
     }
 }
