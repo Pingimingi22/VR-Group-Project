@@ -9,12 +9,15 @@ public class ExplosionSphere : MonoBehaviour
     public float m_explosionDamageFalloff = 1.0f;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<BasicAgent>().m_health != 0)
-        {
-            int damage = CalculateDamage(other.gameObject.transform.position);
-            Debug.Log(damage + "damage");
+        if (other.tag == "Enemy")
+        { 
+            if (other.GetComponent<BasicAgent>().m_health != 0)
+            {
+                int damage = CalculateDamage(other.gameObject.transform.position);
+                Debug.Log(damage + "damage");
 
-            other.GetComponent<BasicAgent>().TakeDamage(damage);
+                other.GetComponent<BasicAgent>().TakeDamage(damage);
+            }
         }
     }
 

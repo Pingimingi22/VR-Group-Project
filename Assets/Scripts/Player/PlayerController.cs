@@ -67,6 +67,9 @@ namespace Player
         [HideInInspector]
         public AudioSource m_torpedoAudioSource;
 
+        [HideInInspector]
+        public AudioSource m_torpedoReloadAudioSource;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -81,6 +84,8 @@ namespace Player
             m_basicGunAudioSource = GetComponent<AudioSource>();
 
             m_torpedoAudioSource = GameObject.Find("TorpedoGunAudio").GetComponent<AudioSource>();
+
+            m_torpedoReloadAudioSource = GameObject.Find("TorpedoReloadAudio").GetComponent<AudioSource>();
         }
     
         // Update is called once per frame
@@ -134,6 +139,7 @@ namespace Player
 
                 //if (m_torpedoAudioSource.isPlaying == false)    // Not neccessary since the clip is longer than the reload so it's actually helpful to reset the play sound for the torpedo.
                     m_torpedoAudioSource.Play();
+                m_torpedoReloadAudioSource.Play();
             }
 
             
