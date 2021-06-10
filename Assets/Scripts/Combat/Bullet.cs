@@ -17,6 +17,10 @@ public class Bullet : MonoBehaviour
     public int m_damageMultiplier = 2;
     public GameObject sphere;
 
+
+    [Header("Audio")]
+    public AudioSource m_torpedoExplosionSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +46,9 @@ public class Bullet : MonoBehaviour
 
                     m_explosionParticles.Play();
 
+         
                     Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
+                    
                 }
 
                 Destroy(gameObject);

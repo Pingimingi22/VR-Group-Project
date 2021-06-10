@@ -62,7 +62,10 @@ namespace Player
 
 
         [HideInInspector]
-        public AudioSource m_audioSource;
+        public AudioSource m_basicGunAudioSource;
+
+        [HideInInspector]
+        public AudioSource m_torpedoAudioSource;
 
         // Start is called before the first frame update
         void Start()
@@ -75,7 +78,9 @@ namespace Player
 
             m_originalCanvasDistance = Vector3.Distance(m_canvas.transform.position, transform.root.position);
 
-            m_audioSource = GetComponent<AudioSource>();
+            m_basicGunAudioSource = GetComponent<AudioSource>();
+
+            m_torpedoAudioSource = GameObject.Find("TorpedoGunAudio").GetComponent<AudioSource>();
         }
     
         // Update is called once per frame
@@ -116,16 +121,19 @@ namespace Player
                 // Shoot.
                 m_combatManager.Shoot(m_crosshair.transform.position);
 
-                if(m_audioSource.isPlaying == false)
-                    m_audioSource.Play();
+                if(m_basicGunAudioSource.isPlaying == false)
+                    m_basicGunAudioSource.Play();
 
 
             }
-            else if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput)
+            else if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput && !m_combatManager.m_isTorpedoCooldown)
             {
                 // Shoot.
                 m_combatManager.FireTorpedo(m_crosshair.transform.position);
                 Debug.Log("Fired torpedo.");
+
+                //if (m_torpedoAudioSource.isPlaying == false)    // Not neccessary since the clip is longer than the reload so it's actually helpful to reset the play sound for the torpedo.
+                    m_torpedoAudioSource.Play();
             }
 
             
@@ -141,7 +149,13 @@ namespace Player
 
             if (((Input.GetAxis("Fire1") == 0) || OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger)) || GameManager.m_isGameOver)
             {
-                m_audioSource.Stop();
+                m_basicGunAudioSource.Stop();
+            }
+            if (((Input.GetAxis("Fire2") == 0) || OVRInput.GetUp(OVRInput.Button.PrimaryTouchpad)) || GameManager.m_isGameOver)
+            {
+                // Actually we don't want to stop the torpedo sound when they lift the trigger up. We want it to play out completely.
+
+                //m_torpedoAudioSource.Stop();
             }
 
             // ------------ Line renderer stuff to help with debugging ------------ //
