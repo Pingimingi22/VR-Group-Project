@@ -42,12 +42,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad6234ac1f137a4e8142710105a948f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bulletLifeTime: 1
+  m_bulletLifeTime: 3
   m_explosionRadius: 10
   m_explosionParticles: {fileID: 8208010289947452474}
   m_bulletDamage: 10
   m_damageMultiplier: 2
   sphere: {fileID: 8922239652771731472, guid: f2be404785283b84eaa808ce73a75871, type: 3}
+  m_explosionAudioObject: {fileID: 3209666762888454955, guid: 332155b612aea6b46b1343548158842d,
+    type: 3}
 --- !u!1001 &2964834532410200661
 PrefabInstance:
   m_ObjectHideFlags: 0

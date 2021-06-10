@@ -30,8 +30,10 @@ public class BasicAgent : MonoBehaviour
         if (m_target == null)
         {
             // We have to manually find it.
+            GameObject targetObj = GameObject.Find("AgentTarget");
+            m_target = targetObj.transform;
+
             GameObject playerObj = GameObject.Find("Player");
-            m_target = playerObj.transform;
             m_playerManager = playerObj.GetComponent<PlayerManager>();
         }
         if (m_combatManager == null)
@@ -61,17 +63,20 @@ public class BasicAgent : MonoBehaviour
 
             transform.position += direction * m_moveSpeed * Time.deltaTime;
         }
-        else if(!m_hasAttacked)
-        {
-            // Otherwise, we are close enough to the player to start attacking.
-            m_playerManager.RemoveHealth(m_damage);
 
-            m_hasAttacked = true;
+        // No longer in use. We are using a trigger collider for doing attacks to the submarine now.
 
-            
-
-            Destroy(gameObject);
-        }
+        //else if(!m_hasAttacked)
+        //{
+        //    // Otherwise, we are close enough to the player to start attacking.
+        //    m_playerManager.RemoveHealth(m_damage);
+        //
+        //    m_hasAttacked = true;
+        //
+        //    
+        //
+        //    Destroy(gameObject);
+        //}
 	}
 
     private void LookAt(Vector3 position)
@@ -105,12 +110,25 @@ public class BasicAgent : MonoBehaviour
 
 	//private void OnTriggerEnter (Collider collision)
 	//{
-    //    if (collision.gameObject.tag == "Bullet")
-    //    {
-    //        TakeDamage(m_combatManager.m_basicGunDamage);
-    //        Destroy(collision.gameObject); // Removing the bullet after it hit's the enemy.
-    //    }
+	//    if (collision.gameObject.tag == "Bullet")
+	//    {
+	//        TakeDamage(m_combatManager.m_basicGunDamage);
+	//        Destroy(collision.gameObject); // Removing the bullet after it hit's the enemy.
+	//    }
 	//}
 
+	public void OnTriggerEnter(Collider other)
+	{
+        if (other.tag == "AgentTarget")
+        {
+            m_playerManager.RemoveHealth(m_damage);
+
+            m_hasAttacked = true;
+
+
+
+            Destroy(gameObject);
+        }
+	}
 
 }
