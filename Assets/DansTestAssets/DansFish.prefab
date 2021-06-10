@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_healthbarImage: {fileID: 725858035472988261}
+  m_healthbarBackground: {fileID: 7580527772469969211}
 --- !u!65 &8238770577538575678
 BoxCollider:
   m_ObjectHideFlags: 0
