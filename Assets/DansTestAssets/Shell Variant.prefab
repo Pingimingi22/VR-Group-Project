@@ -47,6 +47,7 @@ MonoBehaviour:
   m_explosionParticles: {fileID: 8208010289947452474}
   m_bulletDamage: 10
   m_damageMultiplier: 2
+  sphere: {fileID: 8922239652771731472, guid: f2be404785283b84eaa808ce73a75871, type: 3}
 --- !u!1001 &2964834532410200661
 PrefabInstance:
   m_ObjectHideFlags: 0

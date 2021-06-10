@@ -1388,6 +1388,11 @@ PrefabInstance:
       propertyPath: m_bulletSpeed
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 212209082678194471, guid: c6e6ad6437b9916489faaf57506ed6e0,
+        type: 3}
+      propertyPath: m_torpedoBulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6e6ad6437b9916489faaf57506ed6e0, type: 3}
 --- !u!1001 &7065445310138855129

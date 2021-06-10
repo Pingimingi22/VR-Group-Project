@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour
 
     public int m_bulletDamage = 10;
     public int m_damageMultiplier = 2;
+    public GameObject sphere;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,8 @@ public class Bullet : MonoBehaviour
                 if (this.gameObject.CompareTag("Shell"))
                 {
                     Debug.Log("destroy torpedo");
+                    GameObject newSphere = Instantiate(sphere, this.gameObject.transform);
+                    newSphere.transform.parent = m_explosionParticles.transform;
                     m_explosionParticles.transform.parent = null;
 
                     m_explosionParticles.Play();
@@ -86,14 +89,19 @@ public class Bullet : MonoBehaviour
                 if (targetRigidbody != null)
                 {
                     BasicAgent fish = targetRigidbody.GetComponent<BasicAgent>();
+                    GameObject newSphere = Instantiate(sphere, targetRigidbody.transform);
+                    newSphere.transform.parent = m_explosionParticles.transform;
 
-                    if (fish.m_health != 0)
-                    {
-                        int damage = CalculateDamage(targetRigidbody.position);
-                        Debug.Log(damage + "damage");
-
-                        fish.GetComponent<BasicAgent>().TakeDamage(damage);
-                    }
+                    //sphere.transform.localScale = new Vector3(10, 10, 10);
+                    //sphere.transform.position = this.gameObject.transform.position;
+                    //sphere.transform.parent = null;
+                    //if (fish.m_health != 0)
+                    //{
+                    //    int damage = CalculateDamage(targetRigidbody.position);
+                    //    Debug.Log(damage + "damage");
+                    //
+                    //    fish.GetComponent<BasicAgent>().TakeDamage(damage);
+                    //}
                 }
 
                 m_explosionParticles.transform.parent = null;
@@ -117,14 +125,17 @@ public class Bullet : MonoBehaviour
                 if (targetRigidbody != null)
                 {
                     BasicAgent fish = targetRigidbody.GetComponent<BasicAgent>();
+                    GameObject newSphere = Instantiate(sphere, targetRigidbody.transform);
+                    newSphere.transform.parent = m_explosionParticles.transform;
 
-                    if (fish.m_health != 0)
-                    {
-                        int damage = CalculateDamage(targetRigidbody.position);
-                        Debug.Log(damage + "damage");
 
-                        fish.GetComponent<BasicAgent>().TakeDamage(damage);
-                    }
+                    //if (fish.m_health != 0)
+                    //{
+                    //    int damage = CalculateDamage(targetRigidbody.position);
+                    //    Debug.Log(damage + "damage");
+                    //
+                    //    fish.GetComponent<BasicAgent>().TakeDamage(damage);
+                    //}
                 }
 
                 m_explosionParticles.transform.parent = null;
@@ -132,6 +143,7 @@ public class Bullet : MonoBehaviour
                 m_explosionParticles.Play();
 
                 Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
+                
             }
 
             Destroy(gameObject); // Removing the bullet after it hit's the enemy.
