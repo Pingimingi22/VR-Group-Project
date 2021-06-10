@@ -86,6 +86,8 @@ namespace Player
             m_torpedoAudioSource = GameObject.Find("TorpedoGunAudio").GetComponent<AudioSource>();
 
             m_torpedoReloadAudioSource = GameObject.Find("TorpedoReloadAudio").GetComponent<AudioSource>();
+
+            m_basicGunAudioSource.spatialBlend = 0;
         }
     
         // Update is called once per frame
