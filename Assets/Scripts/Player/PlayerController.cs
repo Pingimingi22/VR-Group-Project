@@ -70,6 +70,11 @@ namespace Player
         [HideInInspector]
         public AudioSource m_torpedoReloadAudioSource;
 
+
+
+        // I can't seem to get OVRInput.GetUp() working so I'm going to make my own bool to check if it's pressed or not.
+        private bool m_isPrimaryPressed = false;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -81,18 +86,25 @@ namespace Player
 
             m_originalCanvasDistance = Vector3.Distance(m_canvas.transform.position, transform.root.position);
 
-            m_basicGunAudioSource = GetComponent<AudioSource>();
+
+
+            m_basicGunAudioSource = GameObject.Find("TorpedoBasicGunAudio").GetComponent<AudioSource>();
 
             m_torpedoAudioSource = GameObject.Find("TorpedoGunAudio").GetComponent<AudioSource>();
 
             m_torpedoReloadAudioSource = GameObject.Find("TorpedoReloadAudio").GetComponent<AudioSource>();
 
-            m_basicGunAudioSource.spatialBlend = 0;
+
+            //m_basicGunAudioSource.spatialBlend = 0;
         }
     
         // Update is called once per frame
         void Update()
         {
+            OVRInput.Update();
+            OVRInput.FixedUpdate();
+
+            m_isPrimaryPressed = false;
 
             // delete this it's just for testing.
             //TestRotate();
@@ -128,9 +140,12 @@ namespace Player
                 // Shoot.
                 m_combatManager.Shoot(m_crosshair.transform.position);
 
+
+
                 if(m_basicGunAudioSource.isPlaying == false)
                     m_basicGunAudioSource.Play();
 
+                m_isPrimaryPressed = true;
 
             }
             else if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput && !m_combatManager.m_isTorpedoCooldown)
@@ -155,10 +170,22 @@ namespace Player
             }
 
 
-            if (((Input.GetAxis("Fire1") == 0) || OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger)) || GameManager.m_isGameOver)
+
+            if (m_inEditor)
             {
-                m_basicGunAudioSource.Stop();
+                if (Input.GetAxis("Fire1") == 0 || OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger) || GameManager.m_isGameOver)
+                {
+                    m_basicGunAudioSource.Stop();
+                }
             }
+            else
+            {
+                if(!m_isPrimaryPressed || GameManager.m_isGameOver)
+                {
+                    m_basicGunAudioSource.Stop();
+                }
+            }
+
             if (((Input.GetAxis("Fire2") == 0) || OVRInput.GetUp(OVRInput.Button.PrimaryTouchpad)) || GameManager.m_isGameOver)
             {
                 // Actually we don't want to stop the torpedo sound when they lift the trigger up. We want it to play out completely.
