@@ -40,6 +40,7 @@ public class BasicAgent : MonoBehaviour
         { 
             m_combatManager = GameObject.Find("Managers").GetComponent<CombatManager>(); 
         }
+
     }
 
     // Update is called once per frame
@@ -102,7 +103,8 @@ public class BasicAgent : MonoBehaviour
         if (m_health <= 0)
         {
             Destroy(gameObject); // I know we shouldn't be destroying but hey it's just a prototype right? ... 
-            GameManager.AddPoints(m_pointsReward);
+            GameEvents.gameEvents.ScoreEvent(m_pointsReward);
+            //GameManager.AddPoints(m_pointsReward);
         }
 
         Debug.Log("Enemy took " + damage + " damage");

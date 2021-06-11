@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
 
         m_startGameButtonS = m_startGameButton;
         m_retryButtonS = m_retryButton;
+
+        GameEvents.gameEvents.OnScoreEvent += AddPoints;
 	}
 
 
