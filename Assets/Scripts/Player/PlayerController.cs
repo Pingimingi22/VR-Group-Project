@@ -75,6 +75,15 @@ namespace Player
         // I can't seem to get OVRInput.GetUp() working so I'm going to make my own bool to check if it's pressed or not.
         private bool m_isPrimaryPressed = false;
 
+
+
+        public SkinnedMeshRenderer m_testBlendshapes;
+        Mesh m_skinnedMesh;
+        int m_blendShapeCount;
+        int currentBlendWeight = 0;
+        float blendCounter;
+
+
         // Start is called before the first frame update
         void Start()
         {
@@ -96,6 +105,9 @@ namespace Player
 
 
             //m_basicGunAudioSource.spatialBlend = 0;
+
+            //m_skinnedMesh = m_testBlendshapes.sharedMesh;
+            //m_blendShapeCount = m_skinnedMesh.blendShapeCount;
         }
     
         // Update is called once per frame
@@ -198,6 +210,32 @@ namespace Player
             //Ray ray = new Ray(pointer.position, pointer.forward);
             //m_lineRenderer.SetPosition(0, ray.origin);
             //m_lineRenderer.SetPosition(1, ray.origin + 100 * ray.direction);
+
+
+
+            
+            // blend shape testing stuff. delete this later.
+
+            //if (Input.GetKey(KeyCode.R))
+            //{
+            //    blendCounter += Time.deltaTime;
+            //    if (blendCounter >= 0.05f)
+            //    {
+            //        currentBlendWeight += 1;
+            //        blendCounter = 0;
+            //    }
+            //    m_testBlendshapes.SetBlendShapeWeight(0, currentBlendWeight);
+            //}
+            //if (Input.GetKey(KeyCode.T))
+            //{
+            //    blendCounter += Time.deltaTime;
+            //    if (blendCounter >= 0.05f)
+            //    {
+            //        currentBlendWeight -= 1;
+            //        blendCounter = 0;
+            //    }
+            //    m_testBlendshapes.SetBlendShapeWeight(0, currentBlendWeight);
+            //}
         }
 
         /// <summary>
