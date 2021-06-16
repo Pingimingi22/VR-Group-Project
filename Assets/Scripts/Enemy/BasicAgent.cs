@@ -8,6 +8,7 @@ public class BasicAgent : MonoBehaviour
     public Transform m_target;
     public PlayerManager m_playerManager;
     public CombatManager m_combatManager;
+    public GameManager m_gameManager;
 
     [Header("Agent Stats")]
     public int m_health = 100;
@@ -39,6 +40,10 @@ public class BasicAgent : MonoBehaviour
         if (m_combatManager == null)
         { 
             m_combatManager = GameObject.Find("Managers").GetComponent<CombatManager>(); 
+        }
+        if (m_gameManager == null)
+        {
+            m_gameManager = GameObject.Find("Managers").GetComponent<GameManager>();
         }
 
     }
@@ -103,6 +108,12 @@ public class BasicAgent : MonoBehaviour
         if (m_health <= 0)
         {
             Destroy(gameObject); // I know we shouldn't be destroying but hey it's just a prototype right? ... 
+            if (gameObject.name == "Large_Fish(Clone)")
+            {
+                m_gameManager.m_largeFishCount--;
+                //m_gameManager.m_largeFishIndex.Remove(gameObject);
+                Debug.Log("large fish removed from list.");
+            }
             GameEvents.gameEvents.ScoreEvent(m_pointsReward);
             //GameManager.AddPoints(m_pointsReward);
         }
@@ -127,7 +138,13 @@ public class BasicAgent : MonoBehaviour
 
             m_hasAttacked = true;
 
+            if (gameObject.name == "Large_Fish(Clone)")
+            {
+                m_gameManager.m_largeFishCount--;
+                //m_gameManager.m_largeFishIndex.Remove(gameObject);
 
+                Debug.Log("large fish removed from list.");
+            }
 
             Destroy(gameObject);
         }
