@@ -1811,6 +1811,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OxygenMeter
       objectReference: {fileID: 0}
+    - target: {fileID: 3715101351822069420, guid: 0333164c16c356c4fb727cf5c273c692,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ed69a16f4c1e43458d0debc51ab1579, type: 2}
     - target: {fileID: 4254713774302208211, guid: 0333164c16c356c4fb727cf5c273c692,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1870,7 +1875,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c49b443c124413d4ab6df0d568b78bd8, type: 2}
+      objectReference: {fileID: 2100000, guid: f14c97534400f1a46a1d540e84bbb082, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0333164c16c356c4fb727cf5c273c692, type: 3}
 --- !u!1 &6447442330861493220 stripped
