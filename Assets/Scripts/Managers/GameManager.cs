@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
 
     public static bool m_hasGameStarted = false; // I know it's weird to have both isGameOver and hasGameStarted but whatever lol.
 
+    //public List<GameObject> m_largeFishIndex;
+    public int m_largeFishCount = 0;
+    public int m_largeFishMax = 3;
+
     [Header("Player Points")]
     public int m_points;
 
@@ -90,6 +94,10 @@ public class GameManager : MonoBehaviour
             {
                 // We can spawn a fish!
                 GameObject fish = GenerateRandomFish();
+                //if (fish == m_largeFish)
+                //{
+                //    m_largeFishIndex.Add(fish);
+                //}
                 SpawnFish(fish, m_fishSpawnZone);
             }
 
@@ -122,7 +130,17 @@ public class GameManager : MonoBehaviour
                 return m_mediumFish;
 
             case 2:
-                return m_largeFish;
+                if (m_largeFishCount < m_largeFishMax)
+                {
+                    Debug.Log("Space in list for large fish to spawn");
+                    m_largeFishCount++;
+                    return m_largeFish;
+                }
+                else
+                {
+                    Debug.Log("Too many large fish in list");   
+                    return m_smallFish;
+                }
 
             default:
                 return null;
@@ -205,7 +223,7 @@ public class GameManager : MonoBehaviour
 
         m_playerManager.m_playerHealth = m_playerManager.m_maxPlayerHealth;
 
-
+        m_largeFishCount = 0;
         
 
         GameObject[] m_allEnemies = GameObject.FindGameObjectsWithTag("Enemy"); // Clearing all current enemies on the screen.
