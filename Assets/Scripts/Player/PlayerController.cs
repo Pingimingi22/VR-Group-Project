@@ -108,6 +108,8 @@ namespace Player
                 VRPointerUpdate(); // Use VR controller input.
             }
 
+            // this may not work delete later?
+            LockRotation();
 
             UpdateCrosshairImage();
 
@@ -651,6 +653,28 @@ namespace Player
                 transform.Rotate(0, 0.25f, 0);
                 testCounter = 0;
             }
+        }
+
+        void LockRotation()
+        {
+            if (pointer.transform.localRotation.x < -90)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(-90, pointer.transform.localRotation.y, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.x > 90)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(90, pointer.transform.localRotation.y, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.y < -90)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, -90, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.y > 90)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, 90, pointer.transform.localRotation.z);
+            }
+
+            
         }
 	}
 }
