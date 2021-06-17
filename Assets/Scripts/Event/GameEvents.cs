@@ -8,10 +8,14 @@ public class GameEvents : MonoBehaviour
     public static GameEvents gameEvents;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        gameEvents = this;    
+	// Start is called before the first frame update
+
+	private void Awake()
+	{
+        gameEvents = this;
+    }
+	void Start()
+    { 
     }
 
     public event Action<int> OnScoreEvent;

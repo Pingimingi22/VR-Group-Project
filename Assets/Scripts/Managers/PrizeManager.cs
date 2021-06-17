@@ -5,12 +5,13 @@ using UnityEngine;
 public class PrizeManager : MonoBehaviour
 {
     public List<GameObject> prizes;
-    private static int index = 0;
-    private static int score = 0;
-    public static int prizeIncrements = 600;
+    private int index = 0;
+    private int score = 0;
+    //public static int prizeIncrements = 600;
+    public int prizeIncrements = 600;
     // Start is called before the first frame update
 
-    public static List<GameObject> prizesS;
+    //public static List<GameObject> prizesS;
     void Start()
     {
 
@@ -20,20 +21,20 @@ public class PrizeManager : MonoBehaviour
             tropthy.active = false;
         }
 
-        //GameEvents.gameEvents.OnScoreEvent += AddPoints;
-        prizesS = prizes;
+        GameEvents.gameEvents.OnScoreEvent += AddPoints;
+        //prizesS = prizes;
     }
 
-    public static void AddPoints(int points)
+    public void AddPoints(int points)
     {
         score += points;
         if (score >= prizeIncrements)
         {
             score -= prizeIncrements;
 
-            if (index < prizesS.Count)
+            if (index < prizes.Count)
             {
-                prizesS[index].active = true;
+                prizes[index].active = true;
                 index++;
             }
         }
