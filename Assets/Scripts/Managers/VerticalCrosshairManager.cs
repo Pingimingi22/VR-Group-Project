@@ -14,6 +14,7 @@ public class VerticalCrosshairManager : MonoBehaviour
     void Awake()
     {
         initialZPos = this.gameObject.transform.localPosition.z;
+
         if (initialZPos > 0)
         {
             lengthX = (cylinder.transform.position.y - outerBeam.transform.position.y - 0.05f) * 10;
@@ -38,23 +39,26 @@ public class VerticalCrosshairManager : MonoBehaviour
         {
             //float length = cylinder.transform.position.x - outerBeam.transform.position.x;
             scaleChange.x = lengthX;
-
+        
             this.gameObject.transform.localScale = scaleChange;
-            Debug.Log("added length");
         }
         else if (this.gameObject.transform.localScale.x > lengthX)
         {
             scaleChange.x = lengthX;
-
+        
             this.gameObject.transform.localScale = scaleChange;
-            Debug.Log("removed length");
         }
+
+
+        Debug.Log(initialZPos);
         if (initialZPos > 0)
         {
+            Debug.Log("added length");
             lengthX = (cylinder.transform.position.y - outerBeam.transform.position.y - 0.05f) * 10;
         }
         else
         {
+            Debug.Log("removed length");
             lengthX = (outerBeam.transform.position.y - cylinder.transform.position.y - 0.05f) * 10;
         }
     }

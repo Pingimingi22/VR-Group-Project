@@ -7,6 +7,10 @@ namespace Player
 { 
     public class PlayerController : MonoBehaviour
     {
+
+        // -------------------------- Debug Stuff Variables -------------------------- //
+        public float outputNumber;
+
         // -------------------------- Public Inspector Variables -------------------------- //
         [Header("Combat Manager")]
         public CombatManager m_combatManager;
@@ -29,29 +33,29 @@ namespace Player
 
         [Header("VR Stuff")]
         public Transform pointer;
-
-       
-       
-
         // -------------------------------------------------------------------------------- //
 
-        Vector3 m_crosshairPos = Vector3.zero; // This is what moving the joysticks will be changing. We will then apply this to the image and other stuff.
 
+        // --------------- Input Things --------------- // 
+        Vector3 m_crosshairPos = Vector3.zero; // This is what moving the joysticks will be changing. We will then apply this to the image and other stuff.
 
         float m_xDelta = 0;
         float m_yDelta = 0;
 
+        private bool m_isPrimaryPressed = false;  // I can't seem to get OVRInput.GetUp() working so I'm going to make my own bool to check if it's pressed or not.
+        // -------------------------------------------- //
+
+
+
         private LineRenderer m_lineRenderer;
 
-
+        // ------------- Other Stuff ------------- // 
 
         private bool m_inEditor = false;
 
+        // --------------------------------------- //
 
         private bool m_swappingToGameInput = false;
-        
-
-        private float m_originalCanvasDistance;
 
         private float testCounter = 0;// just for testing delete this later.
 
@@ -60,7 +64,7 @@ namespace Player
         public float yTest;
         public float zTest;
 
-
+        // --------- Audio --------- // 
         [HideInInspector]
         public AudioSource m_basicGunAudioSource;
 
@@ -69,20 +73,10 @@ namespace Player
 
         [HideInInspector]
         public AudioSource m_torpedoReloadAudioSource;
+        // ------------------------- //
 
 
-
-        // I can't seem to get OVRInput.GetUp() working so I'm going to make my own bool to check if it's pressed or not.
-        private bool m_isPrimaryPressed = false;
-
-
-
-        public SkinnedMeshRenderer m_testBlendshapes;
-        Mesh m_skinnedMesh;
-        int m_blendShapeCount;
-        int currentBlendWeight = 0;
-        float blendCounter;
-
+        private Vector3 m_lastGoodLocation = Vector3.zero;
 
         // Start is called before the first frame update
         void Start()
@@ -93,21 +87,12 @@ namespace Player
 
             m_inEditor = Application.isEditor;
 
-            m_originalCanvasDistance = Vector3.Distance(m_canvas.transform.position, transform.root.position);
-
-
 
             m_basicGunAudioSource = GameObject.Find("TorpedoBasicGunAudio").GetComponent<AudioSource>();
 
             m_torpedoAudioSource = GameObject.Find("TorpedoGunAudio").GetComponent<AudioSource>();
 
             m_torpedoReloadAudioSource = GameObject.Find("TorpedoReloadAudio").GetComponent<AudioSource>();
-
-
-            //m_basicGunAudioSource.spatialBlend = 0;
-
-            //m_skinnedMesh = m_testBlendshapes.sharedMesh;
-            //m_blendShapeCount = m_skinnedMesh.blendShapeCount;
         }
     
         // Update is called once per frame
@@ -118,9 +103,6 @@ namespace Player
 
             m_isPrimaryPressed = false;
 
-            // delete this it's just for testing.
-            //TestRotate();
-
             if (m_inEditor)
             {
                 CrosshairInput(); // Use normal mouse/controller controls.
@@ -129,13 +111,14 @@ namespace Player
             { 
                 VRPointerUpdate(); // Use VR controller input.
             }
+
+            // this may not work delete later?
+            //LockRotation();
+
             UpdateCrosshairImage();
 
-            //PrototypeMovement();
 
-
-            
-
+            // This check prevents the shot of selecting a UI element from shooting bullets.
             if (m_swappingToGameInput)
             {
                 if (Input.GetAxis("Fire1") == 0 || OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger))
@@ -153,14 +136,13 @@ namespace Player
                 m_combatManager.Shoot(m_crosshair.transform.position);
 
 
-
                 if(m_basicGunAudioSource.isPlaying == false)
                     m_basicGunAudioSource.Play();
 
                 m_isPrimaryPressed = true;
 
             }
-            else if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput && !m_combatManager.m_isTorpedoCooldown)
+            if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput && !m_combatManager.m_isTorpedoCooldown)
             {
                 // Shoot.
                 m_combatManager.FireTorpedo(m_crosshair.transform.position);
@@ -423,21 +405,19 @@ namespace Player
                       
                 m_crosshairPos.z = cursorPos.z;
 
+
+                m_lastGoodLocation = m_crosshairPos;
+
+                outputNumber = m_crosshairPos.z;
                 m_crosshairPos = worldSpace * m_crosshairPos;
 
-   
-               
-                //m_crosshairPos = ray.GetPoint(enter);
-
-
-  
-
-                //hasHit = true;
-                //}
+                
+                
             }
             else
             {
-                //m_crosshairPos += Vector3.forward * Time.deltaTime * m_movementSpeed;
+                m_crosshairPos = m_canvas.transform.position;
+
             }
 
             //if (!hasHit)
@@ -675,6 +655,42 @@ namespace Player
                 transform.Rotate(0, 0.25f, 0);
                 testCounter = 0;
             }
+        }
+
+        void LockRotation()
+        {
+
+            GameObject anchor = pointer.parent.gameObject;
+            Matrix4x4 anchorSpace = anchor.transform.worldToLocalMatrix;
+            
+            
+
+
+            if (anchorSpace.rotation.x < -45)
+            {
+                //anchorSpace.rotation.eulerAngles = new Vector3(-45, anchorSpace.rotation.y, anchorSpace.rotation.z);
+            }
+            if (pointer.transform.localRotation.x > 45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(45, pointer.transform.localRotation.y, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.y < -45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, -45, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.y > 45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, 45, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.z > 45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, pointer.transform.localRotation.y, 45);
+            }
+            if (pointer.transform.localRotation.z < -45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, pointer.transform.localRotation.y, -45);
+            }
+            
         }
 	}
 }

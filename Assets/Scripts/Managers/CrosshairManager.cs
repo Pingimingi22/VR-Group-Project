@@ -40,14 +40,14 @@ public class CrosshairManager : MonoBehaviour
             scaleChange.x = lengthX;
 
             this.gameObject.transform.localScale = scaleChange;
-            Debug.Log("added length");
+            //Debug.Log("added length");
         }
         else if (this.gameObject.transform.localScale.x > lengthX)
         {
             scaleChange.x = lengthX;
 
             this.gameObject.transform.localScale = scaleChange;
-            Debug.Log("removed length");
+            //Debug.Log("removed length");
         }
 
 
