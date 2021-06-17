@@ -136,7 +136,7 @@ namespace Player
                 m_isPrimaryPressed = true;
 
             }
-            else if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput && !m_combatManager.m_isTorpedoCooldown)
+            if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput && !m_combatManager.m_isTorpedoCooldown)
             {
                 // Shoot.
                 m_combatManager.FireTorpedo(m_crosshair.transform.position);
