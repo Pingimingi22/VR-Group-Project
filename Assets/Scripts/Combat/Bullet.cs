@@ -40,14 +40,24 @@ public class Bullet : MonoBehaviour
                 {
                     Debug.Log("destroy torpedo");
                     GameObject newSphere = Instantiate(sphere, this.gameObject.transform);
-                    newSphere.transform.parent = m_explosionParticles.transform;
-                    m_explosionParticles.transform.parent = null;
 
-                    m_explosionParticles.Play();
+                    ParticleSystem particleClone = Instantiate(m_explosionParticles);
+                    particleClone.transform.position = transform.position;
 
-                    CreateAudioObject(m_explosionParticles.transform.position);
+                    //newSphere.transform.parent = m_explosionParticles.transform;
+                    newSphere.transform.parent = particleClone.transform;
+                    //m_explosionParticles.transform.parent = null;
+                    particleClone.transform.parent = null;
 
-                    Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
+                    //m_explosionParticles.Play();
+                    particleClone.Play();
+
+                    //CreateAudioObject(m_explosionParticles.transform.position);
+                    CreateAudioObject(particleClone.transform.position);
+
+
+                    //Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
+                    Destroy(particleClone.gameObject, particleClone.main.duration);
                     
                 }
 
@@ -92,11 +102,18 @@ public class Bullet : MonoBehaviour
             {
                 Rigidbody targetRigidbody = other.gameObject.GetComponentInParent<Rigidbody>();
 
+                ParticleSystem particleClone = Instantiate(m_explosionParticles);
+                particleClone.transform.position = transform.position;
+
                 if (targetRigidbody != null)
                 {
                     BasicAgent fish = targetRigidbody.GetComponent<BasicAgent>();
                     GameObject newSphere = Instantiate(sphere, targetRigidbody.transform);
-                    newSphere.transform.parent = m_explosionParticles.transform;
+
+
+                    newSphere.transform.parent = particleClone.transform;
+
+                    //newSphere.transform.parent = m_explosionParticles.transform;
 
                     //sphere.transform.localScale = new Vector3(10, 10, 10);
                     //sphere.transform.position = this.gameObject.transform.position;
@@ -110,13 +127,16 @@ public class Bullet : MonoBehaviour
                     //}
                 }
 
-                m_explosionParticles.transform.parent = null;
+                //m_explosionParticles.transform.parent = null;
 
-                m_explosionParticles.Play();
+                //m_explosionParticles.Play();
+                particleClone.Play();
 
-                CreateAudioObject(m_explosionParticles.transform.position);
+                //CreateAudioObject(m_explosionParticles.transform.position);
+                CreateAudioObject(particleClone.transform.position);
 
-                Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
+                //Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
+                Destroy(particleClone.gameObject, particleClone.main.duration);
             }
 
             Destroy(gameObject); // Removing the bullet after it hit's the enemy.
@@ -130,12 +150,16 @@ public class Bullet : MonoBehaviour
             {
                 Rigidbody targetRigidbody = other.gameObject.GetComponentInParent<Rigidbody>();
 
+                ParticleSystem particleClone = Instantiate(m_explosionParticles);
+                particleClone.transform.position = transform.position;
+
                 if (targetRigidbody != null)
                 {
                     BasicAgent fish = targetRigidbody.GetComponent<BasicAgent>();
                     GameObject newSphere = Instantiate(sphere, targetRigidbody.transform);
-                    newSphere.transform.parent = m_explosionParticles.transform;
 
+                    //newSphere.transform.parent = m_explosionParticles.transform;
+                    newSphere.transform.parent = particleClone.transform;
 
                     //if (fish.m_health != 0)
                     //{
@@ -146,14 +170,17 @@ public class Bullet : MonoBehaviour
                     //}
                 }
 
-                m_explosionParticles.transform.parent = null;
+                //m_explosionParticles.transform.parent = null;
+                particleClone.transform.parent = null;
 
-                m_explosionParticles.Play();
+                //m_explosionParticles.Play();
+                particleClone.Play();
 
-                CreateAudioObject(m_explosionParticles.transform.position);
+                //CreateAudioObject(m_explosionParticles.transform.position);
+                CreateAudioObject(particleClone.transform.position);
 
-                Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
-                
+                //Destroy(m_explosionParticles.gameObject, m_explosionParticles.main.duration);
+                Destroy(particleClone.gameObject, particleClone.main.duration);
             }
 
             Destroy(gameObject); // Removing the bullet after it hit's the enemy.

@@ -15129,7 +15129,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 729721833}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &686084811
+--- !u!114 &686084814
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33419,7 +33419,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1128322563}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1578343790
+--- !u!114 &1578343793
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45313,6 +45313,18 @@ PrefabInstance:
       propertyPath: m_torpedoBulletSpeed
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 212209082678194471, guid: c6e6ad6437b9916489faaf57506ed6e0,
+        type: 3}
+      propertyPath: m_torpedo
+      value: 
+      objectReference: {fileID: 9077620534880926118, guid: 739b9437bbc6a5f4d95bca3dd8190a4b,
+        type: 3}
+    - target: {fileID: 212209082678194471, guid: c6e6ad6437b9916489faaf57506ed6e0,
+        type: 3}
+      propertyPath: m_basicBullet
+      value: 
+      objectReference: {fileID: 6961642538327388218, guid: e0b1aff7304966844a50baa8584e05cd,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6e6ad6437b9916489faaf57506ed6e0, type: 3}
 --- !u!137 &2806757098501536962 stripped
