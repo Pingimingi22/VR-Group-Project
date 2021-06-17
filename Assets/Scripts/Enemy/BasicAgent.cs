@@ -115,6 +115,7 @@ public class BasicAgent : MonoBehaviour
                 Debug.Log("large fish removed from list.");
             }
             GameEvents.gameEvents.ScoreEvent(m_pointsReward);
+            PrizeManager.AddPoints(m_pointsReward);
             //GameManager.AddPoints(m_pointsReward);
         }
 
