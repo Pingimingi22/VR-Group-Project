@@ -108,6 +108,8 @@ namespace Player
                 VRPointerUpdate(); // Use VR controller input.
             }
 
+            // this may not work delete later?
+            LockRotation();
 
             UpdateCrosshairImage();
 
@@ -136,7 +138,7 @@ namespace Player
                 m_isPrimaryPressed = true;
 
             }
-            else if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput && !m_combatManager.m_isTorpedoCooldown)
+            if ((Input.GetAxis("Fire2") != 0 || OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) && GameManager.m_hasGameStarted && !GameManager.m_isGameOver && !m_swappingToGameInput && !m_combatManager.m_isTorpedoCooldown)
             {
                 // Shoot.
                 m_combatManager.FireTorpedo(m_crosshair.transform.position);
@@ -651,6 +653,28 @@ namespace Player
                 transform.Rotate(0, 0.25f, 0);
                 testCounter = 0;
             }
+        }
+
+        void LockRotation()
+        {
+            if (pointer.transform.localRotation.x < -90)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(-90, pointer.transform.localRotation.y, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.x > 90)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(90, pointer.transform.localRotation.y, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.y < -90)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, -90, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.y > 90)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, 90, pointer.transform.localRotation.z);
+            }
+
+            
         }
 	}
 }
