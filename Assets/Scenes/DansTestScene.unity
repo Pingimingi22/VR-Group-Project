@@ -2635,7 +2635,7 @@ MonoBehaviour:
   - {fileID: 307712686}
   - {fileID: 1578343789}
   - {fileID: 686084810}
-  prizeIncrements: 10
+  prizeIncrements: 1000
 --- !u!1 &110564558
 GameObject:
   m_ObjectHideFlags: 0
