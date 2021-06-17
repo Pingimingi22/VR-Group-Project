@@ -7,6 +7,10 @@ namespace Player
 { 
     public class PlayerController : MonoBehaviour
     {
+
+        // -------------------------- Debug Stuff Variables -------------------------- //
+        public float outputNumber;
+
         // -------------------------- Public Inspector Variables -------------------------- //
         [Header("Combat Manager")]
         public CombatManager m_combatManager;
@@ -72,7 +76,7 @@ namespace Player
         // ------------------------- //
 
 
-
+        private Vector3 m_lastGoodLocation = Vector3.zero;
 
         // Start is called before the first frame update
         void Start()
@@ -109,7 +113,7 @@ namespace Player
             }
 
             // this may not work delete later?
-            LockRotation();
+            //LockRotation();
 
             UpdateCrosshairImage();
 
@@ -401,21 +405,19 @@ namespace Player
                       
                 m_crosshairPos.z = cursorPos.z;
 
+
+                m_lastGoodLocation = m_crosshairPos;
+
+                outputNumber = m_crosshairPos.z;
                 m_crosshairPos = worldSpace * m_crosshairPos;
 
-   
-               
-                //m_crosshairPos = ray.GetPoint(enter);
-
-
-  
-
-                //hasHit = true;
-                //}
+                
+                
             }
             else
             {
-                //m_crosshairPos += Vector3.forward * Time.deltaTime * m_movementSpeed;
+                m_crosshairPos = m_canvas.transform.position;
+
             }
 
             //if (!hasHit)
@@ -657,23 +659,37 @@ namespace Player
 
         void LockRotation()
         {
-            if (pointer.transform.localRotation.x < -90)
-            {
-                pointer.transform.localRotation = Quaternion.Euler(-90, pointer.transform.localRotation.y, pointer.transform.localRotation.z);
-            }
-            if (pointer.transform.localRotation.x > 90)
-            {
-                pointer.transform.localRotation = Quaternion.Euler(90, pointer.transform.localRotation.y, pointer.transform.localRotation.z);
-            }
-            if (pointer.transform.localRotation.y < -90)
-            {
-                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, -90, pointer.transform.localRotation.z);
-            }
-            if (pointer.transform.localRotation.y > 90)
-            {
-                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, 90, pointer.transform.localRotation.z);
-            }
 
+            GameObject anchor = pointer.parent.gameObject;
+            Matrix4x4 anchorSpace = anchor.transform.worldToLocalMatrix;
+            
+            
+
+
+            if (anchorSpace.rotation.x < -45)
+            {
+                //anchorSpace.rotation.eulerAngles = new Vector3(-45, anchorSpace.rotation.y, anchorSpace.rotation.z);
+            }
+            if (pointer.transform.localRotation.x > 45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(45, pointer.transform.localRotation.y, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.y < -45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, -45, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.y > 45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, 45, pointer.transform.localRotation.z);
+            }
+            if (pointer.transform.localRotation.z > 45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, pointer.transform.localRotation.y, 45);
+            }
+            if (pointer.transform.localRotation.z < -45)
+            {
+                pointer.transform.localRotation = Quaternion.Euler(pointer.transform.localRotation.x, pointer.transform.localRotation.y, -45);
+            }
             
         }
 	}
