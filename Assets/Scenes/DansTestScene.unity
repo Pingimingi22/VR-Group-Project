@@ -48497,6 +48497,22 @@ PrefabInstance:
       propertyPath: m_fontColor.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1661542330, guid: 4680563fe2a4a8544b01b173487eeb48, type: 3}
+      propertyPath: m_text
+      value: Marine Massacre
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661542330, guid: 4680563fe2a4a8544b01b173487eeb48, type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661542330, guid: 4680563fe2a4a8544b01b173487eeb48, type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661542330, guid: 4680563fe2a4a8544b01b173487eeb48, type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 47065166130114496, guid: 4680563fe2a4a8544b01b173487eeb48,
         type: 3}
       propertyPath: m_IsActive
